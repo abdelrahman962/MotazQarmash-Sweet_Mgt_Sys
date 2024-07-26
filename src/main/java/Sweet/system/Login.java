@@ -24,6 +24,9 @@ initializeUsers();
 users.add(u1);
 users.add(u2);
 users.add(u3);
+storeOwners.add(s1);
+storeOwners.add(s2);
+storeOwners.add(s3);
     logInStatus=false;
 
     }
