@@ -1,25 +1,41 @@
 package Sweet.system;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class User {
-    String email;
-     String password;
-  String role;
-    boolean admin=false;
+    private String email;
+    private String password;
+    private String role;
+    private boolean admin = false;
+    private List<Recipe> recipes;
+    private List<Product> basket;
+    private List<String> notifications;
+    private List<Message> messages;  // Added field to store messages
+
     public User(String email, String password, String role) {
         this.email = email;
         this.password = password;
         this.role = role;
+        this.recipes = new ArrayList<>();
+        this.basket = new ArrayList<>();
+        this.notifications = new ArrayList<>();
+        this.messages = new ArrayList<>();  // Initialize messages
     }
 
     public void setEmail(String email) {
         this.email = email;
     }
-public boolean isAdmin( ) {
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public boolean isAdmin() {
         return Objects.equals(this.getRole(), "admin");
-}
+    }
+
     public String getEmail() {
         return email;
     }
@@ -36,4 +52,49 @@ public boolean isAdmin( ) {
         return role;
     }
 
+    public void addPost(Recipe recipe) {
+        recipes.add(recipe);
+    }
+
+    public List<Recipe> getPosts() {
+        return recipes;
+    }
+
+    public void addProductToBasket(Product product) {
+        basket.add(product);
+    }
+
+    public double getTotalBasketPrice() {
+        return basket.stream().mapToDouble(Product::getPrice).sum();
+    }
+
+    public List<Product> getBasket() {
+        return new ArrayList<>(basket);
+    }
+
+    public void clearBasket() {
+        basket.clear();
+    }
+
+    public void sendMessageToStoreOwner(Login login, String storeOwnerEmail, String message, Product currentProduct) {
+        login.sendMessageToStoreOwner(email, storeOwnerEmail, message);
+    }
+
+
+
+    public void addNotification(String notification) {
+        notifications.add(notification);
+    }
+
+    public List<String> getNotifications() {
+        return new ArrayList<>(notifications);
+    }
+
+    public void addMessage(Message message) {
+        messages.add(message);  // Store the message in the user's message list
+    }
+
+    public List<Message> getMessages() {
+        return new ArrayList<>(messages);  // Return a copy of the message list
+    }
 }

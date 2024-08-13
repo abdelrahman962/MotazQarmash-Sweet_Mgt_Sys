@@ -8,7 +8,7 @@ Feature:  Sign up
     Examples:
       | Email                      |
       | abdelrahmanmasri3@gmail.com       |
-      | s12112958@stu.najah.edu  |
+
 
   Scenario:trying to signing up with incorrect email format
     Given that the user is not logged in

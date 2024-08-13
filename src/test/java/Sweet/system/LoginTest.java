@@ -12,6 +12,7 @@ public class LoginTest {
     User currentUser;
 
     public LoginTest(Login login) {
+
         this.login = login;
         currentUser = new User("user@email", "123", "user");
 
@@ -68,7 +69,7 @@ public class LoginTest {
     @When("the information exists, the email is {string}")
     public void theInformationExistsTheEmailIs(String email) {
         // Write code here that turns the phrase above into concrete actions
-        assertFalse(login.emailExists(email));
+        assertTrue(login.emailExists(email));
     }
 
     @Then("signing up fails")
