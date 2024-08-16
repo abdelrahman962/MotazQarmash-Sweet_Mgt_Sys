@@ -1,6 +1,5 @@
 package Sweet.system;
 
-import java.util.List;
 
 public class Provider {
     private String email;
@@ -11,7 +10,9 @@ public class Provider {
         this.password = password;
     }
 
-
+public void setPassword(String password) {
+        this.password = password;
+}
 
     public String getEmail() {
         return email;
@@ -19,6 +20,10 @@ public class Provider {
 
     public String getPassword() {
         return password;
+    }
+
+    public void setEmail(String newEmail) {
+        this.email=newEmail;
     }
 
     // Method to view messages for this provider

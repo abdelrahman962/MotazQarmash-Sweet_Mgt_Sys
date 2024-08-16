@@ -10,12 +10,16 @@ import static org.junit.Assert.*;
 public class FeedbackTest {
     private Login login;
     private User userFeedback;
+  private  User userViewedSharedRecipe;
     private StoreOwner storeOwner;
     private Product product;
     private String feedbackContent;
     private String currentUserEmail;
     private String currentRecipeName;
     private String recipeOwnerEmail;
+   private Recipe recipe;
+private     String expectedFeedback;
+private User recipeOwner;
 
     public FeedbackTest() {
     login = new Login();
@@ -24,16 +28,20 @@ public class FeedbackTest {
 
     @Given("a user {string} with password {string} has purchased the product {string}")
     public void aUserWithPasswordHasPurchasedTheProduct(String userEmail, String userPassword, String productName) {
-        userFeedback=login.getCurrentUser(userEmail,userPassword);
+        userFeedback = login.getCurrentUser(userEmail, userPassword);
         login.setLogInStatus(true);
+        assertNotNull("User should be logged in successfully", userFeedback); // Ensure user is logged in
+
         boolean purchaseSuccess = login.purchaseProduct(userEmail, userPassword, productName, 1);
         assertTrue("User should have successfully purchased the product.", purchaseSuccess);
-
     }
+
+
 
     @When("the user provides feedback {string} on the product")
     public void theUserProvidesFeedbackOnTheProduct(String feedbackContent) {
         this.feedbackContent=feedbackContent;
+
         product = userFeedback.getBasket().get(0);  // Assuming the product is the last added to the basket
         String storeOwnerEmail = product.getStoreOwnerEmail();
         storeOwner = login.findStoreOwnerByEmail(storeOwnerEmail);
@@ -41,15 +49,7 @@ public class FeedbackTest {
         product.addFeedback(feedbackContent);
         assertEquals("Message sent successfully to store owner.", messageResponse);
     }
-    @Then("the feedback is recorded")
-    public void theFeedbackIsRecorded() {
-        boolean feedbackRecorded = false;
 
-        for (Product product : login.getUserBasket(userFeedback.getEmail(), userFeedback.getPassword())) {
-            feedbackRecorded = product.getFeedbacks().contains(feedbackContent);
-        }
-        assertTrue("Feedback should be recorded", feedbackRecorded);
-    }
 
     @Then("the store owner {string} can view the feedback content")
     public void theStoreOwnerCanViewTheFeedbackContent(String storeOwnerEmail) {
@@ -81,60 +81,98 @@ public class FeedbackTest {
     @Then("other users can view the feedback for the product")
     public void otherUsersCanViewTheFeedbackForTheProduct() {
         List<Product> products = login.searchProducts(product.getName());
-        boolean feedbackFound = false;
+        String actualFeedback = null; // Variable to store the feedback found
+
         for (Product product : products) {
-            if (product.getFeedbacks().contains(feedbackContent)) {
-                feedbackFound = true;
-                break;
+            for (String feedback : product.getFeedbacks()) {
+                if (feedback.equals(feedbackContent)) {
+                    actualFeedback = feedback; // Store the found feedback
+                    break;
+                }
             }
+            if (actualFeedback != null) break; // Exit outer loop if feedback is found
         }
-        assertTrue("Other users should be able to view the feedback for the product", feedbackFound);
+
+        assertNotNull("Feedback should be found for the product", actualFeedback);
+        assertEquals("Other users should be able to view the feedback for the product", feedbackContent, actualFeedback);
     }
+
 
     @Given("a user {string} with password {string} has viewed the shared recipe {string} owned by {string}")
     public void aUserWithPasswordHasViewedTheSharedRecipeOwnedBy(String userEmail, String userPassword, String recipeName, String recipeOwnerEmail) {
         currentUserEmail = userEmail;
         currentRecipeName = recipeName;
-        this.recipeOwnerEmail=recipeOwnerEmail;
-        assertNotNull("User should be able to view the shared recipe", login.getRecipeByName(recipeName));
+        userViewedSharedRecipe = login.getCurrentUser(userEmail, userPassword);
+        recipeOwner=login.getUserByEmail(recipeOwnerEmail);
+        assertNotNull("User should be logged in successfully", userViewedSharedRecipe); // Added assertion
+        this.recipeOwnerEmail = recipeOwnerEmail;
+        Recipe recipe = login.getRecipeByName(recipeName);
+        assertNotNull("User should be able to view the shared recipe", recipe);
     }
+
 
     @When("the user provides feedback {string} on the shared recipe")
     public void theUserProvidesFeedbackOnTheSharedRecipe(String feedbackContent) {
         this.feedbackContent = feedbackContent;
-        Recipe recipe = login.getRecipeByName(currentRecipeName);
-        if (recipe != null) {
-            recipe.addFeedback(feedbackContent);
-        }
+
+        recipe = login.getRecipeByName(currentRecipeName);
+
+        assertNotNull("Recipe should exist before providing feedback", recipe); // Ensure recipe is found
+        login.addFeedbackToRecipe(userViewedSharedRecipe.getEmail(),userViewedSharedRecipe.getPassword(),currentRecipeName,feedbackContent);
+        recipe.addFeedback(userViewedSharedRecipe,feedbackContent); // Add feedback
     }
 
-    @Then("the recipe owner {string} can view the feedback content")
-    public void theRecipeOwnerCanViewTheFeedbackContent(String recipeOwnerEmail) {
-        Recipe recipe = login.getRecipeByName(currentRecipeName);
-        boolean feedbackFound = false;
-        if (recipe != null) {
-            for (String feedback : recipe.getFeedbacks()) {
-                if (feedback.equals(feedbackContent)) {
-                    feedbackFound = true;
-                    break;
-                }
-            }
-        }
-        assertTrue("Recipe owner should be able to view the feedback content", feedbackFound);
-    }
 
-    @Then("the recipe owner can see which user provided the feedback")
-    public void theRecipeOwnerCanSeeWhichUserProvidedTheFeedback() {
 
-    }
+
 
     @Then("other users can view the feedback for the shared recipe")
     public void otherUsersCanViewTheFeedbackForTheSharedRecipe() {
-
+        Recipe recipe = login.getRecipeByName(currentRecipeName);
+        boolean feedbackFound = false;
+        for (String feedback : recipe.getFeedbacks()) {
+            if (feedback.equals(feedbackContent)) {
+                expectedFeedback = feedbackContent;
+                feedbackFound = true;
+                break;
+            }
+        }
+        assertEquals(expectedFeedback,feedbackContent);
     }
 
+
+}
+/*
+
+  Scenario Outline: Store owner views feedback on their product
+    Given a store owner "<storeOwnerEmail>" with password "<storeOwnerPassword>" has received feedback on the product "<productName>"
+    When the store owner views the feedback
+    Then the store owner can see the feedback content
+    And the store owner can see which user "<userEmail>" provided the feedback
+
+    Examples:
+      | storeOwnerEmail   | storeOwnerPassword | productName    |userEmail|
+      | mota12@gmail.com  | 12                 | Chocolate Cake |abdelrahmanmasri3@gmail.com|
+      | mota12@gmail.com  | 12                 | Berry Cake     |s1211161@stu.najah.edu     |
+
+  Scenario Outline: User views feedback on their shared recipe
+    Given a user "<userEmail>" with password "<userPassword>" has received feedback on their shared recipe "<recipeName>"
+    When the user views the feedback
+    Then the user can see the feedback content
+    And the user can see which user "<userFeedback>" provided the feedback
+
+    Examples:
+      | userEmail                    | userPassword | recipeName      |userFeedback|
+      | as12112958@stu.najah.edu     | 123          | Chocolate Cake |      john.doe@example.com         |
+      | abdelrahmanmasri3@gmail.com  | 123          | Berry Cake     |      jane.doe@example.com        |
+
+ *
+ */
+
+/*
+*
     @Given("a store owner {string} with password {string} has received feedback on the product {string}")
-    public void aStoreOwnerWithPasswordHasReceivedFeedbackOnTheProduct(String string, String string2, String string3) {
+    public void aStoreOwnerWithPasswordHasReceivedFeedbackOnTheProduct(String storeOwnerEmail, String storeOwnerPassword, String productName) {
 
     }
 
@@ -168,10 +206,12 @@ public class FeedbackTest {
 
     }
 
-    @Then("the user can see which user provided the feedback")
-    public void theUserCanSeeWhichUserProvidedTheFeedback() {
+
+    @Then("the user can see which user {string} provided the feedback")
+    public void theUserCanSeeWhichUserProvidedTheFeedback(String string) {
 
     }
-
-
-}
+*
+*
+*
+* */

@@ -14,6 +14,8 @@ public class ProductSearchTest {
     private Login login;
     private User loggedInUser;
     private double totalBasketPrice;
+    private String userEmail;
+    private String userPassword;
     private List<Product> basket;
     private List<Product> searchResults;
     private Product searchedProduct;
@@ -24,6 +26,8 @@ public class ProductSearchTest {
 
     @Given("a user with email {string} and password {string} is logged in")
     public void aUserWithEmailAndPasswordIsLoggedIn(String email, String password) {
+        userEmail=email;
+        userPassword=password;
         int userType = login.getTypeNumber(email, password);
         if (userType == 1) {
             loggedInUser = login.getCurrentUser(email, password);
@@ -36,13 +40,14 @@ public class ProductSearchTest {
     @When("the user searches for a product by name {string} with dietary needs or food allergies {string} from store owner {string}")
     public void theUserSearchesForAProductByNameWithDietaryNeedsOrFoodAllergiesFromStoreOwner(String productName, String dietaryNeed, String storeOwnerEmail) {
         this.storeOwnerEmail=storeOwnerEmail;
-        searchResults = filterProductsByCriteria(productName, dietaryNeed, storeOwnerEmail);
+        searchResults =login.searchProductsByDietaryNeed(dietaryNeed, storeOwnerEmail);
         searchedProduct = searchResults.isEmpty() ? null : searchResults.get(0);
     }
 
-    @When("the user searches for a product by name {string} from store owner {string}")
-    public void theUserSearchesForAProductByNameFromStoreOwner(String productName, String storeOwnerEmail) {
-        searchResults = filterProductsByCriteria(productName, null, storeOwnerEmail);
+
+    @When("the user searches for a product by name {string} and {string} from store owner {string}")
+    public void theUserSearchesForAProductByNameAndFromStoreOwner(String productName, String string2, String storeOwnerEmail) {
+        searchResults = filterProductsByCriteria(productName, string2, storeOwnerEmail);
         searchedProduct = searchResults.isEmpty() ? null : searchResults.get(0);
     }
 
@@ -135,13 +140,13 @@ public class ProductSearchTest {
     @When("the user clears the basket")
     public void theUserClearsTheBasket() {
         // Write code here that turns the phrase above into concrete actions
-        login.clearUserBasket("jane.doe@example.com", "123");
+        login.clearUserBasket(userEmail, userPassword);
     }
 
     @Then("the basket should be empty")
     public void theBasketShouldBeEmpty() {
-        // Write code here that turns the phrase above into concrete actions
-        basket = login.getUserBasket("jane.doe@example.com", "123");
+
+        basket = login.getUserBasket(userEmail,userPassword );
         assertTrue(basket.isEmpty());
     }
 

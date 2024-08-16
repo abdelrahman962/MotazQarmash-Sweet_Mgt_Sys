@@ -29,7 +29,7 @@ this.storeOwnerEmail = storeOwnerEmail;
 
     }
 
-    /*public void setDescription(String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -37,7 +37,7 @@ this.storeOwnerEmail = storeOwnerEmail;
         this.price = price;
     }
 
-   */
+
     public String getStoreOwnerEmail() {
         return storeOwnerEmail;
     }

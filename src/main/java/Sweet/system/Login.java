@@ -19,7 +19,10 @@ public class Login {
 
     private Map<String, List<Message>> messagesToStoreOwners = new HashMap<>();
     private Map<String, List<Message>> messagesToProviders = new HashMap<>();
-
+/*public void addFeedback(String feedback) {
+    this.feedbacks.add(feedback);
+}
+*/
 
     public Login() {
         initializeUsers();
@@ -64,12 +67,15 @@ public class Login {
         addRecipe("jane.doe@example.com", "123", "Chocolate Cake", "Delicious chocolate cake recipe.");
         addRecipe("jane.doe@example.com", "123", "Berry Chocolate Cake", "Chocolate cake with berries.");
         addRecipe("john.doe@gmail.com", "123", "Berry Chocolate Cake", "Berry cake with mixed berries.");
-
+        addRecipe("s1211161@stu.najah.edu ","123","Berry Cake","Delicious Berry cake recipe.");
     }
 
     public void initiateProduct() {
         addProduct("mota12@gmail.com", "12", "Nablus", "Chocolate Cake", 10.00, "Delicious chocolate cake with rich frosting. Gluten-free.", "gluten-free");
-        addProduct("mota12@gmail.com", "12", "Nablus", "Berry Cake", 12.00, "Berry-flavored cake with mixed berries.", "contains gluten");
+        addProduct("mota12@gmail.com", "12", "Nablus", "Berry Cake", 12.00, "Delicious Berry cake recipe.contains gluten", "contains gluten");
+        addProduct("moa123@gmail.com","12","Jenin","Fruit Cake",20,"Fruit cake is a dense, rich cake filled with a variety of dried fruits and nuts.","");;
+
+
     }
 
 
@@ -134,6 +140,13 @@ sendMessageToStoreOwner(message1.getSenderEmail(),message1.getReceiverEmail(),me
     public List<Message> getMessagesForProvider(String email) {
         return messagesToProviders.getOrDefault(email, new ArrayList<>());
     }
+    public List<Message> getMessagesForUser(String email) {
+        User user = findUserByEmail(email);
+        if (user != null) {
+            return user.getMessages();  // Assuming the User class has a getMessages method
+        }
+        return new ArrayList<>();  // Return an empty list if the user is not found
+    }
 
     public boolean isLoggedIn() {
         return this.logInStatus;
@@ -169,6 +182,17 @@ sendMessageToStoreOwner(message1.getSenderEmail(),message1.getReceiverEmail(),me
 
     public boolean emailExists(String email) {
         for (User i : users) {
+            if (i.getEmail().equals(email)) {
+                return true;
+            }
+        }
+        for(StoreOwner i : storeOwners) {
+            if (i.getEmail().equals(email)) {
+                return true;
+
+            }
+        }
+        for(Provider i : providers) {
             if (i.getEmail().equals(email)) {
                 return true;
             }
@@ -211,24 +235,59 @@ sendMessageToStoreOwner(message1.getSenderEmail(),message1.getReceiverEmail(),me
         storeOwners.add(newSo);
     }
 
-    public void updateUserEmail(String oldEmail, String newEmail) {
+    public void updateUserEmail(String oldEmail, String newEmail, String role) {
+        if(role.equals("user")){
         for (User user : users) {
             if (user.getEmail().equals(oldEmail)) {
                 user.setEmail(newEmail);
                 break;
             }
-        }
-    }
 
-    public void updateUserPassword(String email, String newPassword) {
-        for (User user : users) {
-            if (user.getEmail().equals(email)) {
-                user.setPassword(newPassword);
+        }}
+        else if(role.equals("storeowner")){
+            for (StoreOwner i : storeOwners) {
+                if (i.getEmail().equals(oldEmail)) {
+                    i.setEmail(newEmail);
                 break;
+                }
+            }
+        }
+        else{
+            for (Provider i : providers) {
+                if (i.getEmail().equals(oldEmail)) {
+                    i.setEmail(newEmail);
+                    break;
+                }
             }
         }
     }
 
+    public void updateUserPassword(String email, String newPassword, String role) {
+        if(role.equals("user")) {
+            for (User user : users) {
+                if (user.getEmail().equals(email)) {
+                    user.setPassword(newPassword);
+                    break;
+                }
+            }
+        }
+        else if(role.equals("storeowner")){
+            for(StoreOwner storeOwner: storeOwners) {
+                if (storeOwner.getEmail().equals(email)) {
+                    storeOwner.setPassword(newPassword);
+                    break;
+                }
+            }
+        }
+        else{
+            for(Provider i: providers) {
+                if (i.getEmail().equals(email)) {
+                    i.setPassword(newPassword);
+                    break;
+                }
+            }
+        }
+    }
     public void addRecipe(String email, String password, String name, String content) {
         User user = getCurrentUser(email, password);
         if (user != null) {
@@ -277,7 +336,7 @@ sendMessageToStoreOwner(message1.getSenderEmail(),message1.getReceiverEmail(),me
         if (user != null) {
             Recipe recipe = getRecipeByName(recipeName);
             if (recipe != null) {
-                recipe.addFeedback(feedbackContent);
+                recipe.addFeedback(user, feedbackContent);
             }
         }
     }
@@ -405,4 +464,10 @@ sendMessageToStoreOwner(message1.getSenderEmail(),message1.getReceiverEmail(),me
             user.clearBasket();
         }
     }
+
+
+    public List<Product> getAllProducts() {
+        return new ArrayList<>(products);
+    }
+
 }

@@ -7,17 +7,16 @@ import java.util.List;
 public class Recipe {
     private final String name;
     private final String content;
-    private final Date datePosted;
     private final String ownerEmail;
-    private List<String> feedbacks;  // List to store feedback
-
+    private final List<String> feedbacks;  // List to store feedback
     public Recipe(String name, String content, String ownerEmail) {
         this.name = name;
         this.content = content;
-        this.datePosted = new Date();
+        Date datePosted = new Date();
         this.ownerEmail = ownerEmail;
         feedbacks = new ArrayList<String>();
     }
+
 
     public String getName() {
         return name;
@@ -35,7 +34,7 @@ public class Recipe {
         return ownerEmail;
     }
 
-    public void addFeedback(String feedbackContent) {
+    public void addFeedback(User userViewedSharedRecipe, String feedbackContent) {
         if (feedbackContent != null && !feedbackContent.trim().isEmpty()) {
             feedbacks.add(feedbackContent);  // Add feedback to the list
         }
