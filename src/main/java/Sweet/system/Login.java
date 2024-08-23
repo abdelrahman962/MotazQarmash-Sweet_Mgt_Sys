@@ -42,8 +42,8 @@ public class Login {
         StoreOwner s1 = new StoreOwner("mota12@gmail.com", "12", "Nablus");
         StoreOwner s2 = new StoreOwner("motar2@gmail.com", "12", "Jenin");
         StoreOwner s3 = new StoreOwner("moa123@gmail.com", "12", "Nablus");
-        Provider p1 = new Provider("abdelrahmanmasri333@gmail.com", "123");
-        Provider p2 = new Provider("johnnn.doe@example.com", "123");
+        Provider p1 = new Provider("abdelrahmanmasri333@gmail.com", "123","Nablus");
+        Provider p2 = new Provider("johnnn.doe@example.com", "123","Jenin");
         providers.add(p1);
         providers.add(p2);
         users.add(u1);
@@ -200,8 +200,8 @@ sendMessageToStoreOwner(message1.getSenderEmail(),message1.getReceiverEmail(),me
         return false;
     }
 
-    public void addServiceProvider(String email, String password) {
-        Provider newProvider = new Provider(email, password);
+    public void addServiceProvider(String email, String password,String city) {
+        Provider newProvider = new Provider(email, password,city);
         providers.add(newProvider);
     }
 
@@ -225,8 +225,8 @@ sendMessageToStoreOwner(message1.getSenderEmail(),message1.getReceiverEmail(),me
         users.removeIf(user -> user.getEmail().equals(email));
     }
 
-    public void addProvider(String email, String password) {
-        Provider newProvider = new Provider(email, password);
+    public void addProvider(String email, String password , String city) {
+        Provider newProvider = new Provider(email, password,city);
         providers.add(newProvider);
     }
 
@@ -468,6 +468,24 @@ sendMessageToStoreOwner(message1.getSenderEmail(),message1.getReceiverEmail(),me
 
     public List<Product> getAllProducts() {
         return new ArrayList<>(products);
+    }
+
+
+    public boolean purchaseProduct(String userEmail, String userPassword, String productName, int quantity, String storeOwnerEmail) {
+        User user = getCurrentUser(userEmail, userPassword);
+        if (user == null) {
+            return false; // User not found
+        }
+
+        for (Product product : products) {
+            if (product.getName().equalsIgnoreCase(productName) && product.getStoreOwnerEmail().equalsIgnoreCase(storeOwnerEmail)) {
+                for (int i = 0; i < quantity; i++) {
+                    user.addProductToBasket(product);
+                }
+                return true; // Purchase successful
+            }
+        }
+        return false; // Product not found for the specified store owner
     }
 
 }

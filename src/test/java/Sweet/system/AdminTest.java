@@ -39,7 +39,7 @@ private List<Recipe>recipes;
         } else if (role.equals("storeowner")) {
             login.addStoreOwner(email, password, city);
         } else {
-            login.addServiceProvider(email, password);
+            login.addServiceProvider(email, password,city);
         }
     }
 

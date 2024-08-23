@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class User {
+public class
+User {
     private String email;
     private String password;
     private String role;
@@ -97,4 +98,35 @@ public class User {
     public List<Message> getMessages() {
         return new ArrayList<>(messages);  // Return a copy of the message list
     }
+
+
+    public double  total_price(StoreOwner StoreOwner)
+    {
+        double total =0;
+
+     for (int i =0 ; i<StoreOwner.products.size();i++ )
+     {
+         total+= StoreOwner.products.get(i).getPrice() * StoreOwner.products.get(i).getSales();
+
+     }
+
+
+        return total;
+    }
+
+
+
+    public List<Product> best_selling(StoreOwner StoreOwner)
+    {
+         return  StoreOwner.getBestSellingProducts();
+    }
+
+
+
+
+
+
+
+
+
 }
