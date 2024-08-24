@@ -64,6 +64,7 @@ private String recipientSenderEmail;
 
     @Then("I should receive a confirmation that the message was sent successfully")
     public void iShouldReceiveAConfirmationThatTheMessageWasSentSuccessfully() {
+       List<Message>storeOwnerMessages= login.getMessagesForStoreOwner(recipientEmail);
         assertEquals("Message sent successfully to " + recipientType + ".", confirmationMessage);
     }
 
@@ -72,6 +73,7 @@ private String recipientSenderEmail;
         if (userType.equalsIgnoreCase("store Owner")) {
             recipientSenderEmail=email;
             currentStoreOwner = login.getStoreOwner(email, password);
+
             assertNotNull("Store owner should be logged in", currentStoreOwner);
         } else if (userType.equalsIgnoreCase("provider")) {
             recipientSenderEmail=email;

@@ -13,11 +13,11 @@ public class AdminTest {
     User currentUser;
     String email;
     String adminEmail;
-String role;
-String userEmail;
-String newPassword;
-private List<Product>products;
-private List<Recipe>recipes;
+    String role;
+    String userEmail;
+    String newPassword;
+    private List<Product>products;
+    private List<Recipe>recipes;
 
     public AdminTest(Login login) {
         this.login = login;
@@ -27,7 +27,7 @@ private List<Recipe>recipes;
     @Given("I logged in as an admin with email {string} and password {string}")
     public void iLoggedInAsAnAdminWithEmailAndPassword(String adminEmail, String adminPassword) {
         adminEmail = adminEmail;
-       currentUser=login.getCurrentUser(adminEmail, adminPassword);
+        currentUser=login.getCurrentUser(adminEmail, adminPassword);
         assertTrue(currentUser.isAdmin()); // Admin status should be true
     }
 
@@ -39,7 +39,7 @@ private List<Recipe>recipes;
         } else if (role.equals("storeowner")) {
             login.addStoreOwner(email, password, city);
         } else {
-            login.addServiceProvider(email, password);
+            login.addServiceProvider(email, password,city);
         }
     }
 
@@ -61,22 +61,22 @@ private List<Recipe>recipes;
 
     @Given("the account with email {string} for role {string} exists")
     public void theAccountWithEmailForRoleExists(String userEmail, String role) {
-     this.role=role;
-     assertTrue(login.emailExists(userEmail));
-     this.userEmail=userEmail;
+        this.role=role;
+        assertTrue(login.emailExists(userEmail));
+        this.userEmail=userEmail;
     }
 
 
     @When("I update the email of the user to {string}")
     public void iUpdateTheEmailOfTheUserTo(String newEmail) {
-       login.updateUserEmail(userEmail,newEmail,role);
-       userEmail=newEmail;
+        login.updateUserEmail(userEmail,newEmail,role);
+        userEmail=newEmail;
     }
 
     @When("I update the password of the user to {string}")
     public void iUpdateThePasswordOfTheUserTo(String newPassword) {
-login.updateUserPassword(userEmail,newPassword,role);
-this.newPassword=newPassword;
+        login.updateUserPassword(userEmail,newPassword,role);
+        this.newPassword=newPassword;
     }
 
     @Then("I should see a success message confirming the account update")
@@ -103,7 +103,7 @@ this.newPassword=newPassword;
 
     @When("I view all products in the system")
     public void iViewAllProductsInTheSystem() {
-       products=login.getAllProducts();
+        products=login.getAllProducts();
     }
 
     @Then("I should see a list of all products with their details")
@@ -124,7 +124,7 @@ this.newPassword=newPassword;
 
     @When("I view all recipes in the system")
     public void iViewAllRecipesInTheSystem() {
-      recipes=login.getAllRecipes();
+        recipes=login.getAllRecipes();
     }
 
     @Then("I should see a list of all recipes with their details")

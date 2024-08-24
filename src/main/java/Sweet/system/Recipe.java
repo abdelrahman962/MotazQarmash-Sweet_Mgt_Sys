@@ -8,7 +8,9 @@ public class Recipe {
     private final String name;
     private final String content;
     private final String ownerEmail;
-    private final List<String> feedbacks;  // List to store feedback
+    private List<String> feedbacks;  // List to store feedback
+    private List<User> usersProvidedFeedback = new ArrayList<>();
+
     public Recipe(String name, String content, String ownerEmail) {
         this.name = name;
         this.content = content;
@@ -34,12 +36,16 @@ public class Recipe {
         return ownerEmail;
     }
 
-    public void addFeedback(User userViewedSharedRecipe, String feedbackContent) {
-        if (feedbackContent != null && !feedbackContent.trim().isEmpty()) {
-            feedbacks.add(feedbackContent);  // Add feedback to the list
+    public void addFeedback(User user, String feedbackContent) {
+        if (feedbacks == null) {
+            feedbacks = new ArrayList<>();
         }
+        feedbacks.add(feedbackContent);
+        usersProvidedFeedback.add(user);
     }
-
+    public List<User> getUsersProvidedFeedback() {
+        return new ArrayList<>(usersProvidedFeedback);
+    }
     public List<String> getFeedbacks() {
         return new ArrayList<>(feedbacks);  // Return a copy of the feedback list
     }

@@ -1,13 +1,16 @@
 package Sweet.system;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 
-public class User {
+public class
+User {
     private String email;
     private String password;
     private String role;
+    private int type;
     private boolean admin = false;
     private List<Recipe> recipes;
     private List<Product> basket;
@@ -22,6 +25,12 @@ public class User {
         this.basket = new ArrayList<>();
         this.notifications = new ArrayList<>();
         this.messages = new ArrayList<>();  // Initialize messages
+        if(role.equals("admin")) {
+            type=0;
+        }
+        else{
+            type=1;
+        }
     }
 
     public void setEmail(String email) {
@@ -61,7 +70,9 @@ public class User {
     }
 
     public void addProductToBasket(Product product) {
-        basket.add(product);
+        if (!basket.contains(product)) {
+            basket.add(product);
+        }
     }
 
     public double getTotalBasketPrice() {
@@ -69,7 +80,8 @@ public class User {
     }
 
     public List<Product> getBasket() {
-        return new ArrayList<>(basket);
+        return new ArrayList<>(new HashSet<>(basket));
+
     }
 
     public void clearBasket() {
@@ -97,4 +109,35 @@ public class User {
     public List<Message> getMessages() {
         return new ArrayList<>(messages);  // Return a copy of the message list
     }
+
+    public void respondToMessage(Login login, String senderEmail, String responseContent) {
+        login.sendMessageToStoreOwner(this.email, senderEmail, responseContent);
+    }
+
+    public double  total_price(StoreOwner StoreOwner)
+    {
+        double total =0;
+
+        for (int i =0 ; i<StoreOwner.products.size();i++ )
+        {
+            total+= StoreOwner.products.get(i).getPrice() * StoreOwner.products.get(i).getSales();
+
+        }
+
+
+        return total;
+    }
+
+
+
+    public List<Product> best_selling(StoreOwner StoreOwner)
+    {
+        return  StoreOwner.getBestSellingProducts();
+    }
+
+
+    public int getType() {
+        return type;
+    }
+
 }
