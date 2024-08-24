@@ -13,8 +13,8 @@ User {
     private final int type;
     private boolean admin = false;
     private List<Recipe> recipes;
-    private List<Product> basket;
-    private List<String> notifications;
+    private final List<Product> basket;
+    private final List<String> notifications;
     private List<Message> messages;  // Added field to store messages
 
     public User(String email, String password, String role) {
