@@ -46,7 +46,7 @@ private User recipeOwner;
         String storeOwnerEmail = product.getStoreOwnerEmail();
         storeOwner = login.findStoreOwnerByEmail(storeOwnerEmail);
         String messageResponse = login.sendMessageToStoreOwner(userFeedback.getEmail(), storeOwner.getEmail(), feedbackContent);
-        product.addFeedback(feedbackContent);
+        product.addFeedback(userFeedback,feedbackContent);
         assertEquals("Message sent successfully to store owner.", messageResponse);
     }
 
@@ -103,7 +103,7 @@ private User recipeOwner;
         currentUserEmail = userEmail;
         currentRecipeName = recipeName;
         userViewedSharedRecipe = login.getCurrentUser(userEmail, userPassword);
-        recipeOwner=login.getUserByEmail(recipeOwnerEmail);
+        recipeOwner= (User) login.getEntityByEmail(recipeOwnerEmail);
         assertNotNull("User should be logged in successfully", userViewedSharedRecipe); // Added assertion
         this.recipeOwnerEmail = recipeOwnerEmail;
         Recipe recipe = login.getRecipeByName(recipeName);
