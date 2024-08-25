@@ -8,7 +8,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 public class FeedbackTest {
-    private Login login;
+    private final Login login;
     private User userFeedback;
     private  User userViewedSharedRecipe;
     private String productName;
@@ -17,7 +17,7 @@ public class FeedbackTest {
     private String feedbackContent;
     private String currentUserEmail;
     private String currentRecipeName;
-    private String recipeOwnerEmail;
+    
     private Recipe recipe;
     private     String expectedFeedback;
     private User recipeOwner;
@@ -57,9 +57,9 @@ public class FeedbackTest {
     @Then("the store owner {string} can view the feedback content")
     public void theStoreOwnerCanViewTheFeedbackContent(String storeOwnerEmail) {
         storeOwner.setEmail(storeOwnerEmail);
-        List<Product> products = login.getStoreOwnerProducts(storeOwnerEmail);
+        List<Product> productsFeed = login.getStoreOwnerProducts(storeOwnerEmail);
         boolean feedbackFound = false;
-        for (Product product : products) {
+        for (Product product : productsFeed) {
             if (product.getFeedbacks().contains(feedbackContent)) {
                 feedbackFound = true;
                 break;
@@ -81,13 +81,14 @@ public class FeedbackTest {
         assertTrue("Store owner should be able to see which user provided the feedback", userIdentified);
     }
 
-    @Then("other users can view the feedback for the product")
+    @Then
+            ("other users can view the feedback for the product")
     public void otherUsersCanViewTheFeedbackForTheProduct() {
-        List<Product> products = login.searchProducts(product.getName());
+        List<Product> foundProducts = login.searchProducts(product.getName()); // Renamed 'products' to 'foundProducts'
         String actualFeedback = null; // Variable to store the feedback found
 
-        for (Product product : products) {
-            for (String feedback : product.getFeedbacks()) {
+        for (Product foundProduct : foundProducts) { // Renamed 'product' to 'foundProduct'
+            for (String feedback : foundProduct.getFeedbacks()) {
                 if (feedback.equals(feedbackContent)) {
                     actualFeedback = feedback; // Store the found feedback
                     break;
@@ -101,6 +102,7 @@ public class FeedbackTest {
     }
 
 
+
     @Given("a user {string} with password {string} has viewed the shared recipe {string} owned by {string}")
     public void aUserWithPasswordHasViewedTheSharedRecipeOwnedBy(String userEmail, String userPassword, String recipeName, String recipeOwnerEmail) {
         currentUserEmail = userEmail;
@@ -109,7 +111,7 @@ public class FeedbackTest {
         recipeOwner= (User) login.getEntityByEmail(recipeOwnerEmail);
         assertNotNull("User should be logged in successfully", userViewedSharedRecipe); // Added assertion
 
-        this.recipeOwnerEmail = recipeOwnerEmail;
+
         Recipe recipe = login.getRecipeByName(recipeName);
         assertNotNull("User should be able to view the shared recipe", recipe);
     }
