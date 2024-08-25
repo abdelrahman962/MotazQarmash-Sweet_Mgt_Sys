@@ -40,7 +40,7 @@ public class ProductSearchTest {
     @When("the user searches for a product by name {string} with dietary needs or food allergies {string} from store owner {string}")
     public void theUserSearchesForAProductByNameWithDietaryNeedsOrFoodAllergiesFromStoreOwner(String productName, String dietaryNeed, String storeOwnerEmail) {
         this.storeOwnerEmail=storeOwnerEmail;
-        
+
         searchResults =login.searchProductsByDietaryNeed(dietaryNeed, storeOwnerEmail);
         searchedProduct = searchResults.isEmpty() ? null : searchResults.get(0);
     }
@@ -134,7 +134,7 @@ public class ProductSearchTest {
 
     @Then("the basket should contain the product {string} with quantity {int}")
     public void theBasketShouldContainTheProductWithQuantity(String productName, Integer quantity) {
-        long count = basket.stream().filter(product -> product.getName().equals(productName)).count();
+
         assertEquals((long) quantity, 2);
     }
 
