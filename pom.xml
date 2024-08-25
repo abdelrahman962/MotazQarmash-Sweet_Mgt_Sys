@@ -11,7 +11,7 @@
     <properties>
         <sonar.organization>sweetsysabdmotaz</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <sonar.projectKey>sweetsysabdmotaz</sonar.projectKey>
+        <sonar.projectKey>sweetsysabdmotaz_MotazQarmash-Sweet_Mgt_Sys</sonar.projectKey>
         <sonar.login>SONAR_TOKEN</sonar.login>
         <sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xmlReportPaths>
 
