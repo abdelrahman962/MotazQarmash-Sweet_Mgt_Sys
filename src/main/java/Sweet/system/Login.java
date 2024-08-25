@@ -9,6 +9,14 @@ import java.util.Map;
 public class Login {
     String admin = "admin";
     String user = "user";
+    static final List<User> users = new ArrayList<>();
+    static final List<StoreOwner> storeOwners = new ArrayList<>();
+    private static final List<Provider> providers = new ArrayList<>();
+    private static final List<Recipe> recipes = new ArrayList<>();
+    private static final List<Product> products = new ArrayList<>();
+    public static final List<String> productFeedback = new ArrayList<>();
+    private static final List<String> recipeFeedback = new ArrayList<>();
+
     public static final String M2N_EMAIL="m2n@gmail.com";
     public static final String ABOOD_EMAIL = "abdelrahmanmasri3@gmail.com";
     public static final String ABOOD333_EMAIL = "abdelrahmanmasri333@gmail.com";
@@ -22,14 +30,9 @@ public class Login {
     public static final String JOHN_EMAIL = "john.doe@example.com";
     public static final String PASS1="123";
     public static final String PASS2="12";
-    public List<User> users = new ArrayList<>();
-    public List<StoreOwner> storeOwners = new ArrayList<>();
-    public List<Provider> providers = new ArrayList<>();
+
     private boolean logInStatus;
-    public List<Recipe> recipes = new ArrayList<>();
-    public List<Product> products = new ArrayList<>();
-    public List<String>productFeedback=new ArrayList<>();
-    public List<String>recipeFeedback=new ArrayList<>();
+
     private final Map<String, List<Message>> messagesToStoreOwners = new HashMap<>();
     private final Map<String, List<Message>> messagesToProviders = new HashMap<>();
     private final Map<String, List<Message>> messagesToUsers = new HashMap<>();
