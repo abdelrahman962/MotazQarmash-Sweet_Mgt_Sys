@@ -310,31 +310,48 @@ public class Login {
 
 
     public void updateUserPassword(String email, String newPassword, String role) {
-        if(role.equals("user")) {
-            for (User user : users) {
-                if (user.getEmail().equals(email)) {
-                    user.setPassword(newPassword);
-                    break;
-                }
-            }
+        switch (role.toLowerCase()) {
+            case "user":
+                updatePasswordForUser(email, newPassword);
+                break;
+            case "storeowner":
+                updatePasswordForStoreOwner(email, newPassword);
+                break;
+            case "provider":
+                updatePasswordForProvider(email, newPassword);
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown role: " + role);
         }
-        else if(role.equals("storeowner")){
-            for(StoreOwner storeOwner: storeOwners) {
-                if (storeOwner.getEmail().equals(email)) {
-                    storeOwner.setPassword(newPassword);
-                    break;
-                }
-            }
-        }
-        else{
-            for(Provider i: providers) {
-                if (i.getEmail().equals(email)) {
-                    i.setPassword(newPassword);
-                    break;
-                }
+    }
+
+    private void updatePasswordForUser(String email, String newPassword) {
+        for (User user : users) {
+            if (user.getEmail().equals(email)) {
+                user.setPassword(newPassword);
+                break;
             }
         }
     }
+
+    private void updatePasswordForStoreOwner(String email, String newPassword) {
+        for (StoreOwner storeOwner : storeOwners) {
+            if (storeOwner.getEmail().equals(email)) {
+                storeOwner.setPassword(newPassword);
+                break;
+            }
+        }
+    }
+
+    private void updatePasswordForProvider(String email, String newPassword) {
+        for (Provider provider : providers) {
+            if (provider.getEmail().equals(email)) {
+                provider.setPassword(newPassword);
+                break;
+            }
+        }
+    }
+
     public void addRecipe(String email, String password, String name, String content) {
         User user = getCurrentUser(email, password);
         if (user != null) {
