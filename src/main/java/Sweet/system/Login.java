@@ -9,6 +9,12 @@ import java.util.stream.Collectors;
 public class Login {
     String admin = "admin";
     String user = "user";
+    public static final String M2N_EMAIL="m2n@gmail.com";
+    public static final String ABOOD_EMAIL = "abdelrahmanmasri3@gmail.com";
+    public static final String MOTA12_EMAIL = "mota12@gmail.com";
+    public static final String JOHN_EMAIL = "john.doe@example.com";
+    public static final String PASS1="123";
+    public static final String PASS2="12";
     public List<User> users = new ArrayList<>();
     public List<StoreOwner> storeOwners = new ArrayList<>();
     public List<Provider> providers = new ArrayList<>();
@@ -33,17 +39,17 @@ public class Login {
 
     public void initializeUsers() {
         // Initialize users and store owners
-        User u1 = new User("as12112958@stu.najah.edu", "123", admin);
-        User u2 = new User("m2n@gmail.com", "123", user);
-        User u3 = new User("abdelrahmanmasri3@gmail.com", "123", user);
-        User u4 = new User("john.doe@example.com", "123", user);
-        User u5 = new User("jane.doe@example.com", "123", user);
-        User u6 = new User("s1211161@stu.najah.edu", "123", user);
-        StoreOwner s1 = new StoreOwner("mota12@gmail.com", "12", "Nablus");
-        StoreOwner s2 = new StoreOwner("motar2@gmail.com", "12", "Jenin");
-        StoreOwner s3 = new StoreOwner("moa123@gmail.com", "12", "Nablus");
-        Provider p1 = new Provider("abdelrahmanmasri333@gmail.com", "123","Nablus");
-        Provider p2 = new Provider("johnnn.doe@example.com", "123","Nablus");
+        User u1 = new User("as12112958@stu.najah.edu", PASS1, admin);
+        User u2 = new User(M2N_EMAIL, PASS1, user);
+        User u3 = new User(ABOOD_EMAIL, PASS1, user);
+        User u4 = new User(JOHN_EMAIL, PASS1, user);
+        User u5 = new User("jane.doe@example.com", PASS1, user);
+        User u6 = new User("s1211161@stu.najah.edu", PASS1, user);
+        StoreOwner s1 = new StoreOwner(MOTA12_EMAIL, PASS2, "Nablus");
+        StoreOwner s2 = new StoreOwner("motar2@gmail.com", PASS2, "Jenin");
+        StoreOwner s3 = new StoreOwner("moa123@gmail.com", PASS2, "Nablus");
+        Provider p1 = new Provider("abdelrahmanmasri333@gmail.com", PASS1,"Nablus");
+        Provider p2 = new Provider("johnnn.doe@example.com", PASS1,"Nablus");
         providers.add(p1);
         providers.add(p2);
         users.add(u1);
@@ -60,9 +66,9 @@ public class Login {
     }
 
     public void initfeedback(){
-        Message message1=new Message("john.doe@example.com","as12112958@stu.najah.edu ","Tried this recipe, and it turned out great!");
+        Message message1=new Message(JOHN_EMAIL,"as12112958@stu.najah.edu ","Tried this recipe, and it turned out great!");
 
-        addFeedbackToRecipe("john.doe@example.com ","123","Chocolate Cake","Tried this recipe, and it turned out great!");
+        addFeedbackToRecipe(JOHN_EMAIL,PASS1,"Chocolate Cake","Tried this recipe, and it turned out great!");
         sendMessageToUser(message1.getSenderEmail(),message1.getReceiverEmail(),message1.getContent());
 
 
@@ -70,45 +76,45 @@ public class Login {
     public void initiateRecipe() {
         // Initialize recipes
 
-        addRecipe("m2n@gmail.com", "123", "Chocolate Cake", "Delicious chocolate cake recipe.");
-        addRecipe("m2n@gmail.com", "123", "Berry Chocolate Cake", "Chocolate cake with berries.");
-        addRecipe("jane.doe@example.com", "123", "Chocolate Cake", "Delicious chocolate cake recipe.");
-        addRecipe("jane.doe@example.com", "123", "Berry Chocolate Cake", "Chocolate cake with berries.");
-        addRecipe("john.doe@gmail.com", "123", "Berry Chocolate Cake", "Berry cake with mixed berries.");
-        addRecipe("s1211161@stu.najah.edu ","123","Berry Cake","Delicious Berry cake recipe.");
+        addRecipe(M2N_EMAIL, PASS1, "Chocolate Cake", "Delicious chocolate cake recipe.");
+        addRecipe(M2N_EMAIL, PASS1, "Berry Chocolate Cake", "Chocolate cake with berries.");
+        addRecipe("jane.doe@example.com", PASS1, "Chocolate Cake", "Delicious chocolate cake recipe.");
+        addRecipe("jane.doe@example.com", PASS1, "Berry Chocolate Cake", "Chocolate cake with berries.");
+        addRecipe("john.doe@gmail.com", PASS1, "Berry Chocolate Cake", "Berry cake with mixed berries.");
+        addRecipe("s1211161@stu.najah.edu ",PASS1,"Berry Cake","Delicious Berry cake recipe.");
     }
 
 
     public void initiateProduct() {
-        addProduct("mota12@gmail.com", "12", "Nablus", "Chocolate Cake", 10.00, "Delicious chocolate cake with rich frosting. Gluten-free.", "gluten-free");
-        addProduct("mota12@gmail.com", "12", "Nablus", "Berry Cake", 12.00, "Delicious Berry cake recipe.contains gluten", "contains gluten");
-        addProduct("moa123@gmail.com","12","Jenin","Fruit Cake",20,"Fruit cake is a dense, rich cake filled with a variety of dried fruits and nuts.","");
+        addProduct(MOTA12_EMAIL, PASS2, "Nablus", "Chocolate Cake", 10.00, "Delicious chocolate cake with rich frosting. Gluten-free.", "gluten-free");
+        addProduct(MOTA12_EMAIL, PASS2, "Nablus", "Berry Cake", 12.00, "Delicious Berry cake recipe.contains gluten", "contains gluten");
+        addProduct("moa123@gmail.com",PASS2,"Jenin","Fruit Cake",20,"Fruit cake is a dense, rich cake filled with a variety of dried fruits and nuts.","");
 
 
     }
 
     public void initMessages() {
         // Sending messages from users to store owners and providers
-        Message message1=new Message("abdelrahmanmasri3@gmail.com","mota12@gmail.com ","Great chocolate cake, loved it!  ");
-        addFeedbackToProduct("abdelrahmanmasri3@gmail.com","123","Chocolate Cake","Great chocolate cake, loved it!");
-        addFeedbackToProduct("s1211161@stu.najah.edu ","123","Berry Cake","The berry cake was delicious, highly recommend!");
+        Message message1=new Message(ABOOD_EMAIL,"mota12@gmail.com ","Great chocolate cake, loved it!  ");
+        addFeedbackToProduct(ABOOD_EMAIL,PASS1,"Chocolate Cake","Great chocolate cake, loved it!");
+        addFeedbackToProduct("s1211161@stu.najah.edu ",PASS1,"Berry Cake","The berry cake was delicious, highly recommend!");
         sendMessageToStoreOwner(message1.getSenderEmail(),message1.getReceiverEmail(),message1.getContent());
         // User: abdelrahmanmasri3@gmail.com to Store Owner: mota12@gmail.com
-        sendMessageToStoreOwner("abdelrahmanmasri3@gmail.com", "mota12@gmail.com",
+        sendMessageToStoreOwner(ABOOD_EMAIL, MOTA12_EMAIL,
                 "Can you provide more details about the ingredients of the Chocolate Cake?");
 
         // User: abdelrahmanmasri3@gmail.com to Provider: abdelrahmanmasri333@gmail.com
-        sendMessageToProvider("abdelrahmanmasri3@gmail.com", "abdelrahmanmasri333@gmail.com",
+        sendMessageToProvider(ABOOD_EMAIL, "abdelrahmanmasri333@gmail.com",
                 "I need assistance with bulk ordering ingredients for a Berry Cake. Can you help?");
 
         // Responses from Store Owner and Provider to the user
 
         // Store Owner: mota12@gmail.com responds to User: abdelrahmanmasri3@gmail.com
-        sendMessageToUser("mota12@gmail.com", "abdelrahmanmasri3@gmail.com",
+        sendMessageToUser(MOTA12_EMAIL, ABOOD_EMAIL,
                 "The Chocolate Cake contains flour, sugar, cocoa powder, eggs, and butter. It is gluten-free.");
 
         // Provider: abdelrahmanmasri333@gmail.com responds to User: abdelrahmanmasri3@gmail.com
-        sendMessageToUser("abdelrahmanmasri333@gmail.com", "abdelrahmanmasri3@gmail.com",
+        sendMessageToUser("abdelrahmanmasri333@gmail.com", ABOOD_EMAIL,
                 "Yes, we can provide bulk ingredients for Berry Cake. Please specify the quantities and delivery date.");
     }
 
@@ -461,12 +467,7 @@ public class Login {
             return provider;
         }
 
-        StoreOwner storeOwner = findStoreOwnerByEmail(email);
-        if (storeOwner != null) {
-            return storeOwner;
-        }
-
-        return null; // No matching entity found
+        return findStoreOwnerByEmail(email);// No matching entity found
     }
 
 
