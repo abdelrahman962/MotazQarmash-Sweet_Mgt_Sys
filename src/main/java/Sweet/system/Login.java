@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class Login {
     String admin = "admin";
-    String user = "user";
+    String cUser = "user";
     static final List<User> users = new ArrayList<>();
     static final List<StoreOwner> storeOwners = new ArrayList<>();
     private static final List<Provider> providers = new ArrayList<>();
@@ -16,7 +16,6 @@ public class Login {
     private static final List<Product> products = new ArrayList<>();
     protected static final List<String> productFeedback = new ArrayList<>();
     protected static final List<String> recipeFeedback = new ArrayList<>();
-
     public static final String M2N_EMAIL="m2n@gmail.com";
     public static final String ABOOD_EMAIL = "abdelrahmanmasri3@gmail.com";
     public static final String ABOOD333_EMAIL = "abdelrahmanmasri333@gmail.com";
@@ -50,11 +49,11 @@ public class Login {
     public void initializeUsers() {
         // Initialize users and store owners
         User u1 = new User("as12112958@stu.najah.edu", PASS1, admin);
-        User u2 = new User(M2N_EMAIL, PASS1, user);
-        User u3 = new User(ABOOD_EMAIL, PASS1, user);
-        User u4 = new User(JOHN_EMAIL, PASS1, user);
-        User u5 = new User(JANE_EMAIL, PASS1, user);
-        User u6 = new User("s1211161@stu.najah.edu", PASS1, user);
+        User u2 = new User(M2N_EMAIL, PASS1, cUser);
+        User u3 = new User(ABOOD_EMAIL, PASS1, cUser);
+        User u4 = new User(JOHN_EMAIL, PASS1, cUser);
+        User u5 = new User(JANE_EMAIL, PASS1, cUser);
+        User u6 = new User("s1211161@stu.najah.edu", PASS1, cUser);
         StoreOwner s1 = new StoreOwner(MOTA12_EMAIL, PASS2, NABLUS);
         StoreOwner s2 = new StoreOwner("motar2@gmail.com", PASS2, JENIN);
         StoreOwner s3 = new StoreOwner("moa123@gmail.com", PASS2, NABLUS);
@@ -240,7 +239,7 @@ public class Login {
     }
 
     public void addUser(String email, String password) {
-        User newUser = new User(email, password, user);
+        User newUser = new User(email, password, cUser);
         users.add(newUser);
     }
 
@@ -258,10 +257,6 @@ public class Login {
             providers.removeIf(provider -> provider.getEmail().equals(email));
         }
     }
-
-
-
-
     public void addStoreOwner(String email, String password, String city) {
         StoreOwner newSo = new StoreOwner(email, password, city);
         storeOwners.add(newSo);
@@ -544,12 +539,14 @@ public class Login {
 
 
     public double getUserTotalBasketPrice(String userEmail, String userPassword) {
-        User user = getCurrentUser(userEmail, userPassword);
-        if (user != null) {
-            return user.getTotalBasketPrice();
+        User currentUser = getCurrentUser(userEmail, userPassword); // Renamed local variable
+
+        if (currentUser != null) {
+            return currentUser.getTotalBasketPrice();
         }
         return 0.0;
     }
+
 
     public List<Product> getUserBasket(String userEmail, String userPassword) {
         User user = getCurrentUser(userEmail, userPassword);
