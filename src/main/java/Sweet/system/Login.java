@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+
 
 public class Login {
     String admin = "admin";
@@ -14,9 +14,10 @@ public class Login {
     public static final String ABOOD333_EMAIL = "abdelrahmanmasri333@gmail.com";
     public static final String JANE_EMAIL = "jane.doe@example.com";
     public static final String NABLUS="Nablus";
+    public static final String JENIN="Jenin";
     public static final String CHOCOLATE_CAKE="Chocolate Cake";
     public static final String BERRY_CAKE="Berry Cake";
-    public static final String BERRY_Chocolate_Cake="Berry Chocolate Cake";
+    public static final String BERRY_CHOCOLATE_CAKE="Berry Chocolate Cake";
     public static final String MOTA12_EMAIL = "mota12@gmail.com";
     public static final String JOHN_EMAIL = "john.doe@example.com";
     public static final String PASS1="123";
@@ -52,7 +53,7 @@ public class Login {
         User u5 = new User(JANE_EMAIL, PASS1, user);
         User u6 = new User("s1211161@stu.najah.edu", PASS1, user);
         StoreOwner s1 = new StoreOwner(MOTA12_EMAIL, PASS2, NABLUS);
-        StoreOwner s2 = new StoreOwner("motar2@gmail.com", PASS2, "Jenin");
+        StoreOwner s2 = new StoreOwner("motar2@gmail.com", PASS2, JENIN);
         StoreOwner s3 = new StoreOwner("moa123@gmail.com", PASS2, NABLUS);
         Provider p1 = new Provider(ABOOD333_EMAIL, PASS1,NABLUS);
         Provider p2 = new Provider("johnnn.doe@example.com", PASS1,NABLUS);
@@ -83,10 +84,10 @@ public class Login {
         // Initialize recipes
 
         addRecipe(M2N_EMAIL, PASS1, CHOCOLATE_CAKE, "Delicious chocolate cake recipe.");
-        addRecipe(M2N_EMAIL, PASS1, BERRY_Chocolate_Cake, "Chocolate cake with berries.");
+        addRecipe(M2N_EMAIL, PASS1, BERRY_CHOCOLATE_CAKE, "Chocolate cake with berries.");
         addRecipe(JANE_EMAIL, PASS1, CHOCOLATE_CAKE, "Delicious chocolate cake recipe.");
-        addRecipe(JANE_EMAIL, PASS1, BERRY_Chocolate_Cake, "Chocolate cake with berries.");
-        addRecipe("john.doe@gmail.com", PASS1, BERRY_Chocolate_Cake, "Berry cake with mixed berries.");
+        addRecipe(JANE_EMAIL, PASS1, BERRY_CHOCOLATE_CAKE, "Chocolate cake with berries.");
+        addRecipe("john.doe@gmail.com", PASS1,BERRY_CHOCOLATE_CAKE, "Berry cake with mixed berries.");
         addRecipe("s1211161@stu.najah.edu ",PASS1,BERRY_CAKE,"Delicious Berry cake recipe.");
     }
 
@@ -94,7 +95,7 @@ public class Login {
     public void initiateProduct() {
         addProduct(MOTA12_EMAIL, PASS2, NABLUS, CHOCOLATE_CAKE, 10.00, "Delicious chocolate cake with rich frosting. Gluten-free.", "gluten-free");
         addProduct(MOTA12_EMAIL, PASS2, NABLUS, BERRY_CAKE, 12.00, "Delicious Berry cake recipe.contains gluten", "contains gluten");
-        addProduct("moa123@gmail.com",PASS2,"Jenin","Fruit Cake",20,"Fruit cake is a dense, rich cake filled with a variety of dried fruits and nuts.","");
+        addProduct("moa123@gmail.com",PASS2,JENIN,"Fruit Cake",20,"Fruit cake is a dense, rich cake filled with a variety of dried fruits and nuts.","");
 
 
     }
@@ -250,8 +251,6 @@ public class Login {
         } else if (entity instanceof Provider) {
             // Delete from Providers
             providers.removeIf(provider -> provider.getEmail().equals(email));
-        } else {
-            System.out.println("No matching entity found for deletion.");
         }
     }
 
@@ -376,8 +375,9 @@ public class Login {
     public List<Recipe> getOtherUsersRecipes(String currentUserEmail) {
         return recipes.stream()
                 .filter(recipe -> !recipe.getOwnerEmail().equals(currentUserEmail))
-                .collect(Collectors.toList());
+                .toList();  // Stream.toList() is used here instead of Stream.collect(Collectors.toList())
     }
+
 
     public Recipe getRecipeByName(String recipeName) {
         return recipes.stream()
