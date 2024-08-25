@@ -135,7 +135,7 @@ public class ProductSearchTest {
     @Then("the basket should contain the product {string} with quantity {int}")
     public void theBasketShouldContainTheProductWithQuantity(String productName, Integer quantity) {
 
-        assertEquals((long) quantity, 2);
+        assertEquals( 2,(long) quantity);
     }
 
     @When("the user clears the basket")
