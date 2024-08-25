@@ -116,45 +116,48 @@ public class StoreOwner {
 
     public List<User> Order_Management(String ownerEmail) {
         List<User> user_returns = new ArrayList<>();
-        Set<User> uniqueUsers = new HashSet<>();
-        List<String> output = new ArrayList<>();
+        Set<User> uniqueUsers = new HashSet<>();  // To avoid duplicate user entries
+        List<String> output = new ArrayList<>();  // To store the output
 
-        // Retrieve store products
+        // Retrieve the store owner's products based on their email
         Login login = new Login();
         List<Product> storeProducts = login.getStoreOwnerProducts(ownerEmail);
 
-        // Iterate through each user
+        // Iterate through each user in the userpurchased list
         for (User currentUser : getUserpurchased()) {
-            if (hasOrderedFromStore(currentUser, storeProducts)) {
-                if (uniqueUsers.add(currentUser)) {
-                    user_returns.add(currentUser);
-                    output.add("User Email: " + currentUser.getEmail());
+            StringBuilder userInfo = new StringBuilder();
+            userInfo.append("Processing user: ").append(currentUser.getEmail());
+
+            boolean userHasOrdered = false;
+
+            // Iterate through each product in the user's basket
+            for (Product userProduct : currentUser.getBasket()) {
+                userInfo.append("\nChecking product: ").append(userProduct.getName());
+
+                // Compare the user's basket product with the store owner's products
+                for (Product storeProduct : storeProducts) {
+                    if (storeProduct.getName().equals(userProduct.getName())) {
+                        userHasOrdered = true;
+                        break; // Found a match, no need to check further
+                    }
+                }
+
+                if (userHasOrdered) {
+                    break; // User has ordered from this store, no need to check further products
                 }
             }
-        }
 
-        // Optionally handle the output list or return it if needed
-        handleOutput(output);
-
-        return user_returns;
-    }
-
-    // Check if the user has ordered any product from the store
-    private boolean hasOrderedFromStore(User user, List<Product> storeProducts) {
-        for (Product userProduct : user.getBasket()) {
-            if (storeProducts.stream().anyMatch(storeProduct -> storeProduct.getName().equals(userProduct.getName()))) {
-                return true;
+            // Add the user to the return list if they have ordered from the store owner and is not already in the list
+            if (userHasOrdered && !uniqueUsers.contains(currentUser)) {
+                uniqueUsers.add(currentUser);
+                user_returns.add(currentUser);
+                // Add user details to the output list
+                output.add("User Email: " + currentUser.getEmail());
             }
         }
-        return false;
-    }
 
-    // Handle the output list (logging, printing, etc.)
-    private void handleOutput(List<String> output) {
-        // Implement the method to handle the output, e.g., logging or printing
-        for (String entry : output) {
-            System.out.println(entry);
-        }
+        // Return the list of output messages
+        return user_returns;
     }
 
 

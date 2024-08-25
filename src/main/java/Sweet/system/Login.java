@@ -9,9 +9,6 @@ import java.util.stream.Collectors;
 public class Login {
     String admin = "admin";
     String user = "user";
-    public static final String EMAIL_M2N = "m2n@gmail.com";
-    public static final String EMAIL_Abd = "abdelrahmanmasri3@gmail.com";
-
     public List<User> users = new ArrayList<>();
     public List<StoreOwner> storeOwners = new ArrayList<>();
     public List<Provider> providers = new ArrayList<>();
@@ -37,8 +34,8 @@ public class Login {
     public void initializeUsers() {
         // Initialize users and store owners
         User u1 = new User("as12112958@stu.najah.edu", "123", admin);
-        User u2 = new User(EMAIL_M2N, "123", user);
-        User u3 = new User(EMAIL_Abd, "123", user);
+        User u2 = new User("m2n@gmail.com", "123", user);
+        User u3 = new User("abdelrahmanmasri3@gmail.com", "123", user);
         User u4 = new User("john.doe@example.com", "123", user);
         User u5 = new User("jane.doe@example.com", "123", user);
         User u6 = new User("s1211161@stu.najah.edu", "123", user);
@@ -73,8 +70,8 @@ public class Login {
     public void initiateRecipe() {
         // Initialize recipes
 
-        addRecipe(EMAIL_M2N, "123", "Chocolate Cake", "Delicious chocolate cake recipe.");
-        addRecipe(EMAIL_M2N, "123", "Berry Chocolate Cake", "Chocolate cake with berries.");
+        addRecipe("m2n@gmail.com", "123", "Chocolate Cake", "Delicious chocolate cake recipe.");
+        addRecipe("m2n@gmail.com", "123", "Berry Chocolate Cake", "Chocolate cake with berries.");
         addRecipe("jane.doe@example.com", "123", "Chocolate Cake", "Delicious chocolate cake recipe.");
         addRecipe("jane.doe@example.com", "123", "Berry Chocolate Cake", "Chocolate cake with berries.");
         addRecipe("john.doe@gmail.com", "123", "Berry Chocolate Cake", "Berry cake with mixed berries.");
@@ -92,22 +89,26 @@ public class Login {
 
     public void initMessages() {
         // Sending messages from users to store owners and providers
-        Message message1=new Message(EMAIL_Abd,"mota12@gmail.com ","Great chocolate cake, loved it!  ");
-        addFeedbackToProduct(EMAIL_Abd,"123","Chocolate Cake","Great chocolate cake, loved it!");
+        Message message1=new Message("abdelrahmanmasri3@gmail.com","mota12@gmail.com ","Great chocolate cake, loved it!  ");
+        addFeedbackToProduct("abdelrahmanmasri3@gmail.com","123","Chocolate Cake","Great chocolate cake, loved it!");
         addFeedbackToProduct("s1211161@stu.najah.edu ","123","Berry Cake","The berry cake was delicious, highly recommend!");
         sendMessageToStoreOwner(message1.getSenderEmail(),message1.getReceiverEmail(),message1.getContent());
-
-        sendMessageToStoreOwner(EMAIL_Abd, "mota12@gmail.com",
+        // User: abdelrahmanmasri3@gmail.com to Store Owner: mota12@gmail.com
+        sendMessageToStoreOwner("abdelrahmanmasri3@gmail.com", "mota12@gmail.com",
                 "Can you provide more details about the ingredients of the Chocolate Cake?");
 
+        // User: abdelrahmanmasri3@gmail.com to Provider: abdelrahmanmasri333@gmail.com
+        sendMessageToProvider("abdelrahmanmasri3@gmail.com", "abdelrahmanmasri333@gmail.com",
+                "I need assistance with bulk ordering ingredients for a Berry Cake. Can you help?");
 
+        // Responses from Store Owner and Provider to the user
 
-
+        // Store Owner: mota12@gmail.com responds to User: abdelrahmanmasri3@gmail.com
         sendMessageToUser("mota12@gmail.com", "abdelrahmanmasri3@gmail.com",
                 "The Chocolate Cake contains flour, sugar, cocoa powder, eggs, and butter. It is gluten-free.");
 
-
-        sendMessageToUser("abdelrahmanmasri333@gmail.com", EMAIL_Abd,
+        // Provider: abdelrahmanmasri333@gmail.com responds to User: abdelrahmanmasri3@gmail.com
+        sendMessageToUser("abdelrahmanmasri333@gmail.com", "abdelrahmanmasri3@gmail.com",
                 "Yes, we can provide bulk ingredients for Berry Cake. Please specify the quantities and delivery date.");
     }
 
@@ -133,7 +134,15 @@ public class Login {
         return "Failed to send message to store owner.";
     }
 
-
+    public String sendMessageToProvider(String fromEmail, String toEmail, String content) {
+        Provider provider = findProviderByEmail(toEmail);
+        if (provider != null) {
+            Message message = new Message(fromEmail, toEmail, content);
+            messagesToProviders.computeIfAbsent(toEmail, k -> new ArrayList<>()).add(message);
+            return "Message sent successfully to provider.";
+        }
+        return "Failed to send message to provider.";
+    }
 
     public List<Message> getMessagesForStoreOwner(String email) {
         return messagesToStoreOwners.getOrDefault(email, new ArrayList<>());
@@ -195,15 +204,12 @@ public class Login {
         }
         return false;
     }
-    public void addUser(String email, String password) {
-        User newUser = new User(email, password, user);
-        users.add(newUser);
+
+    public void addServiceProvider(String email, String password,String city) {
+        Provider newProvider = new Provider(email, password,city);
+        providers.add(newProvider);
     }
 
-    public void addStoreOwner(String email, String password, String city) {
-        StoreOwner newSo = new StoreOwner(email, password, city);
-        storeOwners.add(newSo);
-    }
     public User getCurrentUser(String email, String password) {
         if (email.isEmpty() || password.isEmpty()) return null;
 
@@ -215,7 +221,10 @@ public class Login {
         return null;
     }
 
-
+    public void addUser(String email, String password) {
+        User newUser = new User(email, password, user);
+        users.add(newUser);
+    }
 
     public void deleteUser(String email) {
         Object entity = getEntityByEmail(email);
@@ -255,7 +264,10 @@ public class Login {
 
 
 
-
+    public void addStoreOwner(String email, String password, String city) {
+        StoreOwner newSo = new StoreOwner(email, password, city);
+        storeOwners.add(newSo);
+    }
 
     public void updateUserEmail(String oldEmail, String newEmail, String role) {
         if(role.equals("user")){
@@ -377,8 +389,7 @@ public class Login {
     }
 
     public void addProduct(String email, String password, String city, String productName, double price, String description, String dietaryNeed) {
-        StoreOwner storeOwner =new StoreOwner(email,password,city);
-
+        StoreOwner storeOwner = getStoreOwner(email, password);
         if (storeOwner != null) {
             Product product = new Product(productName, price, description, dietaryNeed,storeOwner.getEmail());
             storeOwner.addProduct(product);
@@ -448,11 +459,24 @@ public class Login {
     }
 
 
+    public Provider findProviderByEmail(String email) {
+        for (Provider provider : providers) {
+            if (provider.getEmail().equals(email)) {
+                return provider;
+            }
+        }
+        return null;
+    }
 
     public Object getEntityByEmail(String email) {
         User user = findUserByEmail(email);
         if (user != null) {
             return user;
+        }
+
+        Provider provider = findProviderByEmail(email);
+        if (provider != null) {
+            return provider;
         }
 
         StoreOwner storeOwner = findStoreOwnerByEmail(email);
@@ -514,14 +538,21 @@ public class Login {
 
 
     public List<Product> getAllProducts() {
-
         return new ArrayList<>(products);
     }
 
+    public Provider getProvider(String email, String password) {
+        if (email.isEmpty() || password.isEmpty()) return null;
 
+        for (Provider p : providers) {
+            if (p.getEmail().equals(email) && p.getPassword().equals(password)) {
+                return p;
+            }
+        }
+        return null;
+    }
 
     public List<String> getRecipeFeedback() {
-
         return recipeFeedback;
     }
 
