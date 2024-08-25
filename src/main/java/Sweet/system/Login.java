@@ -14,7 +14,7 @@ public class Login {
     private static final List<Provider> providers = new ArrayList<>();
     private static final List<Recipe> recipes = new ArrayList<>();
     private static final List<Product> products = new ArrayList<>();
-    public static final List<String> productFeedback = new ArrayList<>();
+    protected static final List<String> productFeedback = new ArrayList<>();
     protected static final List<String> recipeFeedback = new ArrayList<>();
 
     public static final String M2N_EMAIL="m2n@gmail.com";
@@ -129,15 +129,17 @@ public class Login {
     }
 
     public String sendMessageToUser(String fromEmail, String toEmail, String content) {
-        User user = findUserByEmail(toEmail);
-        if (user != null) {
+        User targetUser = findUserByEmail(toEmail); // Renamed local variable
+
+        if (targetUser != null) {
             Message message = new Message(fromEmail, toEmail, content);
             messagesToUsers.computeIfAbsent(toEmail, k -> new ArrayList<>()).add(message);
-            user.addMessage(message);
+            targetUser.addMessage(message);
             return "Message sent successfully to user.";
         }
         return "Failed to send message to user.";
     }
+
 
     public String sendMessageToStoreOwner(String fromEmail, String toEmail, String content) {
         StoreOwner storeOwner = findStoreOwnerByEmail(toEmail);
