@@ -4,6 +4,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class Monitoring_and_Reporting_Test {
@@ -33,8 +34,7 @@ private User user;
         storeOwner.addProduct(expext);
 
 
-
-       assertTrue(88==admin.total_price(storeOwner));
+        assertEquals(88, admin.total_price(storeOwner), 0.0);
     }
 
     @When("I view the best-selling products report for the store")

@@ -21,6 +21,7 @@
         <cucumber.version>7.18.1</cucumber.version>
         <maven.compiler.source>22</maven.compiler.source>
         <maven.compiler.target>22</maven.compiler.target>
+
     </properties>
 
     <dependencies>

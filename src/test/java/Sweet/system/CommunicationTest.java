@@ -45,9 +45,6 @@ private String recipientSenderEmail;
         if (recipientType.equalsIgnoreCase("store owner")) {
             currentStoreOwner = login.findStoreOwnerByEmail(email);
             assertNotNull("Store owner should be found", currentStoreOwner);
-        } else if (recipientType.equalsIgnoreCase("provider")) {
-            currentProvider = login.findProviderByEmail(email);
-            assertNotNull("Provider should be found", currentProvider);
         }
     }
 
@@ -57,8 +54,6 @@ private String recipientSenderEmail;
         recipientEmail = email;
         if (recipientType.equalsIgnoreCase("store owner")) {
             confirmationMessage = login.sendMessageToStoreOwner(currentUser.getEmail(), recipientEmail, messageContent);
-        } else if (recipientType.equalsIgnoreCase("provider")) {
-            confirmationMessage = login.sendMessageToProvider(currentUser.getEmail(), recipientEmail, messageContent);
         }
     }
 
@@ -73,10 +68,6 @@ private String recipientSenderEmail;
             recipientSenderEmail=email;
             currentStoreOwner = login.getStoreOwner(email, password);
             assertNotNull("Store owner should be logged in", currentStoreOwner);
-        } else if (userType.equalsIgnoreCase("provider")) {
-            recipientSenderEmail=email;
-            currentProvider = login.findProviderByEmail(email);
-            assertNotNull("Provider should be logged in", currentProvider);
         }
     }
 

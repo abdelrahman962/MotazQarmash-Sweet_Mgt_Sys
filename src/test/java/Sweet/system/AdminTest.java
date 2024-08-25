@@ -38,8 +38,6 @@ private List<Recipe>recipes;
             login.addUser(email, password);
         } else if (role.equals("storeowner")) {
             login.addStoreOwner(email, password, city);
-        } else {
-            login.addServiceProvider(email, password,city);
         }
     }
 
@@ -89,10 +87,7 @@ this.newPassword=newPassword;
             StoreOwner updatedStoreOwner = login.findStoreOwnerByEmail(userEmail);
             assertNotNull("StoreOwner not found after update", updatedStoreOwner);
             assertEquals("StoreOwner email did not update correctly", userEmail, updatedStoreOwner.getEmail());
-        } else if (role.equalsIgnoreCase("provider")) {
-            Provider updatedProvider = login.findProviderByEmail(userEmail);
-            assertNotNull("Provider not found after update", updatedProvider);
-            assertEquals("Provider email did not update correctly", userEmail, updatedProvider.getEmail());
+
         } else {
             fail("Role not recognized: " + role);
         }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="Sweet.system.AcceptanceTest" time="2.268" tests="52" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="Sweet.system.AcceptanceTest" time="2.415" tests="52" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="22"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -15,7 +15,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
     <property name="sun.boot.library.path" value="C:\Users\Hp\.jdks\openjdk-22.0.2\bin"/>
-    <property name="sun.java.command" value="C:\Users\Hp\AppData\Local\Temp\surefire9733050802579197881\surefirebooter-20240825061946546_3.jar C:\Users\Hp\AppData\Local\Temp\surefire9733050802579197881 2024-08-25T06-19-46_355-jvmRun1 surefire-20240825061946546_1tmp surefire_0-20240825061946546_2tmp"/>
+    <property name="sun.java.command" value="C:\Users\Hp\AppData\Local\Temp\surefire4660915145744473398\surefirebooter-20240825070456412_3.jar C:\Users\Hp\AppData\Local\Temp\surefire4660915145744473398 2024-08-25T07-04-56_285-jvmRun1 surefire-20240825070456412_1tmp surefire_0-20240825070456412_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Users\Hp\OneDrive\Desktop\Software Project part 1\carpProject-main\MotazQarmash-Sweet_Mgt_Sys\target\test-classes;C:\Users\Hp\OneDrive\Desktop\Software Project part 1\carpProject-main\MotazQarmash-Sweet_Mgt_Sys\target\classes;C:\Users\Hp\.m2\repository\org\jacoco\jacoco-maven-plugin\0.8.12\jacoco-maven-plugin-0.8.12.jar;C:\Users\Hp\.m2\repository\org\codehaus\plexus\plexus-utils\3.0.24\plexus-utils-3.0.24.jar;C:\Users\Hp\.m2\repository\org\apache\maven\shared\file-management\3.1.0\file-management-3.1.0.jar;C:\Users\Hp\.m2\repository\org\slf4j\slf4j-api\1.7.36\slf4j-api-1.7.36.jar;C:\Users\Hp\.m2\repository\commons-io\commons-io\2.11.0\commons-io-2.11.0.jar;C:\Users\Hp\.m2\repository\org\apache\maven\reporting\maven-reporting-api\3.0\maven-reporting-api-3.0.jar;C:\Users\Hp\.m2\repository\org\apache\maven\doxia\doxia-sink-api\1.0\doxia-sink-api-1.0.jar;C:\Users\Hp\.m2\repository\org\jacoco\org.jacoco.agent\0.8.12\org.jacoco.agent-0.8.12-runtime.jar;C:\Users\Hp\.m2\repository\org\jacoco\org.jacoco.core\0.8.12\org.jacoco.core-0.8.12.jar;C:\Users\Hp\.m2\repository\org\ow2\asm\asm\9.7\asm-9.7.jar;C:\Users\Hp\.m2\repository\org\ow2\asm\asm-commons\9.7\asm-commons-9.7.jar;C:\Users\Hp\.m2\repository\org\ow2\asm\asm-tree\9.7\asm-tree-9.7.jar;C:\Users\Hp\.m2\repository\org\jacoco\org.jacoco.report\0.8.12\org.jacoco.report-0.8.12.jar;C:\Users\Hp\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\Hp\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\Hp\.m2\repository\io\cucumber\cucumber-picocontainer\7.15.0\cucumber-picocontainer-7.15.0.jar;C:\Users\Hp\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\Hp\.m2\repository\org\picocontainer\picocontainer\2.15\picocontainer-2.15.jar;C:\Users\Hp\.m2\repository\io\cucumber\cucumber-java\7.15.0\cucumber-java-7.15.0.jar;C:\Users\Hp\.m2\repository\io\cucumber\cucumber-core\7.15.0\cucumber-core-7.15.0.jar;C:\Users\Hp\.m2\repository\io\cucumber\cucumber-gherkin\7.15.0\cucumber-gherkin-7.15.0.jar;C:\Users\Hp\.m2\repository\io\cucumber\cucumber-gherkin-messages\7.15.0\cucumber-gherkin-messages-7.15.0.jar;C:\Users\Hp\.m2\repository\io\cucumber\gherkin\26.2.0\gherkin-26.2.0.jar;C:\Users\Hp\.m2\repository\io\cucumber\messages\22.0.0\messages-22.0.0.jar;C:\Users\Hp\.m2\repository\io\cucumber\tag-expressions\6.0.0\tag-expressions-6.0.0.jar;C:\Users\Hp\.m2\repository\io\cucumber\cucumber-expressions\17.0.1\cucumber-expressions-17.0.1.jar;C:\Users\Hp\.m2\repository\io\cucumber\datatable\7.15.0\datatable-7.15.0.jar;C:\Users\Hp\.m2\repository\io\cucumber\cucumber-plugin\7.15.0\cucumber-plugin-7.15.0.jar;C:\Users\Hp\.m2\repository\io\cucumber\docstring\7.15.0\docstring-7.15.0.jar;C:\Users\Hp\.m2\repository\io\cucumber\html-formatter\20.4.0\html-formatter-20.4.0.jar;C:\Users\Hp\.m2\repository\io\cucumber\junit-xml-formatter\0.2.0\junit-xml-formatter-0.2.0.jar;C:\Users\Hp\.m2\repository\io\cucumber\ci-environment\10.0.0\ci-environment-10.0.0.jar;C:\Users\Hp\.m2\repository\io\cucumber\cucumber-junit\7.15.0\cucumber-junit-7.15.0.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -30,7 +30,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\Hp\AppData\Local\Temp\surefire9733050802579197881\surefirebooter-20240825061946546_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\Hp\AppData\Local\Temp\surefire4660915145744473398\surefirebooter-20240825070456412_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="22.0.2+9-70"/>
@@ -59,58 +59,58 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="66.0"/>
   </properties>
-  <testcase name="Store owner or provider updates their email address" classname="Manage account details and update business information" time="0.286">
+  <testcase name="Store owner or provider updates their email address" classname="Manage account details and update business information" time="0.27">
     <system-out><![CDATA[newemail@example.com]]></system-out>
   </testcase>
-  <testcase name="Store owner or provider updates their password" classname="Manage account details and update business information" time="0.017"/>
-  <testcase name="Store owner or provider updates their city" classname="Manage account details and update business information" time="0.017"/>
-  <testcase name="Create new account for Service Provider" classname="Admin Management" time="0.022"/>
-  <testcase name="Delete account" classname="Admin Management" time="0.071"/>
-  <testcase name="Update an existing account #1" classname="Admin Management" time="0.011"/>
-  <testcase name="Update an existing account #2" classname="Admin Management" time="0.008"/>
-  <testcase name="Update an existing account #3" classname="Admin Management" time="0.009"/>
+  <testcase name="Store owner or provider updates their password" classname="Manage account details and update business information" time="0.022"/>
+  <testcase name="Store owner or provider updates their city" classname="Manage account details and update business information" time="0.021"/>
+  <testcase name="Create new account for Service Provider" classname="Admin Management" time="0.026"/>
+  <testcase name="Delete account" classname="Admin Management" time="0.072"/>
+  <testcase name="Update an existing account #1" classname="Admin Management" time="0.015"/>
+  <testcase name="Update an existing account #2" classname="Admin Management" time="0.015"/>
+  <testcase name="Update an existing account #3" classname="Admin Management" time="0.01"/>
   <testcase name="Admin views all products" classname="Admin Management" time="0.009"/>
-  <testcase name="Admin views all recipes" classname="Admin Management" time="0.007"/>
-  <testcase name="User sends a message to a recipient #1" classname="Direct Communication with Store Owners and Suppliers" time="0.015"/>
-  <testcase name="User sends a message to a recipient #2" classname="Direct Communication with Store Owners and Suppliers" time="0.008"/>
+  <testcase name="Admin views all recipes" classname="Admin Management" time="0.012"/>
+  <testcase name="User sends a message to a recipient #1" classname="Direct Communication with Store Owners and Suppliers" time="0.014"/>
+  <testcase name="User sends a message to a recipient #2" classname="Direct Communication with Store Owners and Suppliers" time="0.009"/>
   <testcase name="User receives a response to their inquiry or request #1" classname="Direct Communication with Store Owners and Suppliers" time="0.01"/>
   <testcase name="User receives a response to their inquiry or request #2" classname="Direct Communication with Store Owners and Suppliers" time="0.009"/>
-  <testcase name="User provides feedback on a purchased product #1" classname="Feedback on Purchased Products and Shared Recipes" time="0.009"/>
-  <testcase name="User provides feedback on a purchased product #2" classname="Feedback on Purchased Products and Shared Recipes" time="0.007"/>
+  <testcase name="User provides feedback on a purchased product #1" classname="Feedback on Purchased Products and Shared Recipes" time="0.008"/>
+  <testcase name="User provides feedback on a purchased product #2" classname="Feedback on Purchased Products and Shared Recipes" time="0.009"/>
   <testcase name="User provides feedback on a shared recipe #1" classname="Feedback on Purchased Products and Shared Recipes" time="0.015"/>
-  <testcase name="User provides feedback on a shared recipe #2" classname="Feedback on Purchased Products and Shared Recipes" time="0.006"/>
-  <testcase name="Invalid email #1" classname="Login" time="0.008"/>
-  <testcase name="Invalid email #2" classname="Login" time="0.005"/>
-  <testcase name="Invalid password #1" classname="Login" time="0.006"/>
-  <testcase name="Invalid password #2" classname="Login" time="0.007"/>
-  <testcase name="Invalid information #1" classname="Login" time="0.005"/>
-  <testcase name="Invalid information #2" classname="Login" time="0.006"/>
-  <testcase name="Monitor profits and generate financial reports" classname="Monitor profits and generate financial reports" time="0.007"/>
-  <testcase name="Identify best-selling products in each store" classname="Monitor profits and generate financial reports" time="0.007"/>
-  <testcase name="Gather and display statistics on registered users by City" classname="Monitor profits and generate financial reports" time="0.005"/>
-  <testcase name="Store owner or raw material supplier adds a new product to their inventory" classname="Product Management" time="0.008"/>
-  <testcase name="Store owner or raw material supplier updates the details of an existing product" classname="Product Management" time="0.007"/>
-  <testcase name="Store owner or raw material supplier removes an existing product from their inventory" classname="Product Management" time="0.011"/>
-  <testcase name="Monitor sales and profits" classname="Product Management" time="0.013"/>
-  <testcase name="Identify best-selling products" classname="Product Management" time="0.007"/>
-  <testcase name="Store owner or raw material supplier applies a discount to a product" classname="Product Management" time="0.005"/>
-  <testcase name="Search for a store owner&apos;s product by name based on dietary needs or food allergies #1" classname="Browse and search for dessert recipes and store owner products by name" time="0.015"/>
+  <testcase name="User provides feedback on a shared recipe #2" classname="Feedback on Purchased Products and Shared Recipes" time="0.008"/>
+  <testcase name="Invalid email #1" classname="Login" time="0.009"/>
+  <testcase name="Invalid email #2" classname="Login" time="0.006"/>
+  <testcase name="Invalid password #1" classname="Login" time="0.008"/>
+  <testcase name="Invalid password #2" classname="Login" time="0.006"/>
+  <testcase name="Invalid information #1" classname="Login" time="0.009"/>
+  <testcase name="Invalid information #2" classname="Login" time="0.008"/>
+  <testcase name="Monitor profits and generate financial reports" classname="Monitor profits and generate financial reports" time="0.008"/>
+  <testcase name="Identify best-selling products in each store" classname="Monitor profits and generate financial reports" time="0.008"/>
+  <testcase name="Gather and display statistics on registered users by City" classname="Monitor profits and generate financial reports" time="0.008"/>
+  <testcase name="Store owner or raw material supplier adds a new product to their inventory" classname="Product Management" time="0.009"/>
+  <testcase name="Store owner or raw material supplier updates the details of an existing product" classname="Product Management" time="0.012"/>
+  <testcase name="Store owner or raw material supplier removes an existing product from their inventory" classname="Product Management" time="0.013"/>
+  <testcase name="Monitor sales and profits" classname="Product Management" time="0.012"/>
+  <testcase name="Identify best-selling products" classname="Product Management" time="0.006"/>
+  <testcase name="Store owner or raw material supplier applies a discount to a product" classname="Product Management" time="0.007"/>
+  <testcase name="Search for a store owner&apos;s product by name based on dietary needs or food allergies #1" classname="Browse and search for dessert recipes and store owner products by name" time="0.013"/>
   <testcase name="Search for a store owner&apos;s product by name based on dietary needs or food allergies #2" classname="Browse and search for dessert recipes and store owner products by name" time="0.008"/>
-  <testcase name="Search for a store owner&apos;s product by name based on dietary needs or food allergies #3" classname="Browse and search for dessert recipes and store owner products by name" time="0.007"/>
-  <testcase name="Search for a store owner&apos;s product by name that does not exist or did not meet dietary needs or food allergies #1" classname="Browse and search for dessert recipes and store owner products by name" time="0.006"/>
-  <testcase name="Search for a store owner&apos;s product by name that does not exist or did not meet dietary needs or food allergies #2" classname="Browse and search for dessert recipes and store owner products by name" time="0.005"/>
-  <testcase name="Search for a store owner&apos;s product by name that does not exist or did not meet dietary needs or food allergies #3" classname="Browse and search for dessert recipes and store owner products by name" time="0.005"/>
-  <testcase name="Search for products with dietary needs that have no matches #1" classname="Browse and search for dessert recipes and store owner products by name" time="0.005"/>
-  <testcase name="Search for products with dietary needs that have no matches #2" classname="Browse and search for dessert recipes and store owner products by name" time="0.004"/>
-  <testcase name="Purchase products and add to basket" classname="Browse and search for dessert recipes and store owner products by name" time="0.01"/>
-  <testcase name="Clear user&apos;s basket" classname="Browse and search for dessert recipes and store owner products by name" time="0.005"/>
-  <testcase name="Search for a dessert recipe by name from other users #1" classname="Browse and search for dessert recipes by name from other users #1" time="0.01"/>
-  <testcase name="Search for a dessert recipe by name from other users #2" classname="Browse and search for dessert recipes by name from other users #1" time="0.005"/>
-  <testcase name="Search for a dessert recipe by name that does not exist" classname="Browse and search for dessert recipes by name from other users #1" time="0.005"/>
-  <testcase name="Search for a dessert recipe by name from other users" classname="Browse and search for dessert recipes by name from other users #2" time="0.005"/>
-  <testcase name="Search for a dessert recipe by name that does not exist" classname="Browse and search for dessert recipes by name from other users #2" time="0.004"/>
-  <testcase name="trying to signing up with an existing email" classname="Sign up" time="0.004"/>
+  <testcase name="Search for a store owner&apos;s product by name based on dietary needs or food allergies #3" classname="Browse and search for dessert recipes and store owner products by name" time="0.008"/>
+  <testcase name="Search for a store owner&apos;s product by name that does not exist or did not meet dietary needs or food allergies #1" classname="Browse and search for dessert recipes and store owner products by name" time="0.007"/>
+  <testcase name="Search for a store owner&apos;s product by name that does not exist or did not meet dietary needs or food allergies #2" classname="Browse and search for dessert recipes and store owner products by name" time="0.006"/>
+  <testcase name="Search for a store owner&apos;s product by name that does not exist or did not meet dietary needs or food allergies #3" classname="Browse and search for dessert recipes and store owner products by name" time="0.006"/>
+  <testcase name="Search for products with dietary needs that have no matches #1" classname="Browse and search for dessert recipes and store owner products by name" time="0.013"/>
+  <testcase name="Search for products with dietary needs that have no matches #2" classname="Browse and search for dessert recipes and store owner products by name" time="0.002"/>
+  <testcase name="Purchase products and add to basket" classname="Browse and search for dessert recipes and store owner products by name" time="0.009"/>
+  <testcase name="Clear user&apos;s basket" classname="Browse and search for dessert recipes and store owner products by name" time="0.006"/>
+  <testcase name="Search for a dessert recipe by name from other users #1" classname="Browse and search for dessert recipes by name from other users #1" time="0.013"/>
+  <testcase name="Search for a dessert recipe by name from other users #2" classname="Browse and search for dessert recipes by name from other users #1" time="0.006"/>
+  <testcase name="Search for a dessert recipe by name that does not exist" classname="Browse and search for dessert recipes by name from other users #1" time="0.006"/>
+  <testcase name="Search for a dessert recipe by name from other users" classname="Browse and search for dessert recipes by name from other users #2" time="0.006"/>
+  <testcase name="Search for a dessert recipe by name that does not exist" classname="Browse and search for dessert recipes by name from other users #2" time="0.005"/>
+  <testcase name="trying to signing up with an existing email" classname="Sign up" time="0.005"/>
   <testcase name="trying to signing up with incorrect email format" classname="Sign up" time="0.005"/>
   <testcase name="trying to signing up with new account #1" classname="Sign up" time="0.006"/>
-  <testcase name="trying to signing up with new account #2" classname="Sign up" time="0.004"/>
+  <testcase name="trying to signing up with new account #2" classname="Sign up" time="0.005"/>
 </testsuite>
