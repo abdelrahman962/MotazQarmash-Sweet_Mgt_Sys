@@ -229,35 +229,17 @@ public class Login {
     public void deleteUser(String email) {
         Object entity = getEntityByEmail(email);
 
-        switch (entity) {
-            case User _ -> {
-                // Delete from Users
-                for (int i = 0; i < users.size(); i++) {
-                    if (users.get(i).getEmail().equals(email)) {
-                        users.remove(i);
-                        break;  // Exit the loop after removing the user
-                    }
-                }
-            }
-            case StoreOwner _ -> {
-                // Delete from StoreOwners
-                for (int i = 0; i < storeOwners.size(); i++) {
-                    if (storeOwners.get(i).getEmail().equals(email)) {
-                        storeOwners.remove(i);
-                        break;  // Exit the loop after removing the store owner
-                    }
-                }
-            }
-            case Provider _ -> {
-                // Delete from Providers
-                for (int i = 0; i < providers.size(); i++) {
-                    if (providers.get(i).getEmail().equals(email)) {
-                        providers.remove(i);
-                        break;  // Exit the loop after removing the provider
-                    }
-                }
-            }
-            case null, default -> System.out.println("No matching entity found for deletion.");
+        if (entity instanceof User) {
+            // Delete from Users
+            users.removeIf(user -> user.getEmail().equals(email));
+        } else if (entity instanceof StoreOwner) {
+            // Delete from StoreOwners
+            storeOwners.removeIf(storeOwner -> storeOwner.getEmail().equals(email));
+        } else if (entity instanceof Provider) {
+            // Delete from Providers
+            providers.removeIf(provider -> provider.getEmail().equals(email));
+        } else {
+            System.out.println("No matching entity found for deletion.");
         }
     }
 
