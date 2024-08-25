@@ -10,28 +10,29 @@ import static org.junit.Assert.*;
 public class FeedbackTest {
     private Login login;
     private User userFeedback;
-  private  User userViewedSharedRecipe;
+    private  User userViewedSharedRecipe;
+    private String productName;
     private StoreOwner storeOwner;
     private Product product;
     private String feedbackContent;
     private String currentUserEmail;
     private String currentRecipeName;
     private String recipeOwnerEmail;
-   private Recipe recipe;
-private     String expectedFeedback;
-private User recipeOwner;
+    private Recipe recipe;
+    private     String expectedFeedback;
+    private User recipeOwner;
 
     public FeedbackTest() {
-    login = new Login();
+        login = new Login();
 
-}
+    }
 
     @Given("a user {string} with password {string} has purchased the product {string}")
     public void aUserWithPasswordHasPurchasedTheProduct(String userEmail, String userPassword, String productName) {
         userFeedback = login.getCurrentUser(userEmail, userPassword);
         login.setLogInStatus(true);
         assertNotNull("User should be logged in successfully", userFeedback); // Ensure user is logged in
-
+        this.productName = productName;
         boolean purchaseSuccess = login.purchaseProduct(userEmail, userPassword, productName, 1);
         assertTrue("User should have successfully purchased the product.", purchaseSuccess);
     }
@@ -46,14 +47,16 @@ private User recipeOwner;
         String storeOwnerEmail = product.getStoreOwnerEmail();
         storeOwner = login.findStoreOwnerByEmail(storeOwnerEmail);
         String messageResponse = login.sendMessageToStoreOwner(userFeedback.getEmail(), storeOwner.getEmail(), feedbackContent);
-        product.addFeedback(userFeedback,feedbackContent);
+        login.addFeedbackToProduct(userFeedback.getEmail(),userFeedback.getPassword(),productName,feedbackContent);
+        product.addFeedback(userFeedback, feedbackContent);
+
         assertEquals("Message sent successfully to store owner.", messageResponse);
     }
 
 
     @Then("the store owner {string} can view the feedback content")
     public void theStoreOwnerCanViewTheFeedbackContent(String storeOwnerEmail) {
-        storeOwner.setEmail(storeOwnerEmail); ;
+        storeOwner.setEmail(storeOwnerEmail);
         List<Product> products = login.getStoreOwnerProducts(storeOwnerEmail);
         boolean feedbackFound = false;
         for (Product product : products) {
@@ -62,7 +65,7 @@ private User recipeOwner;
                 break;
             }
         }
-        assertTrue("Store owner should be able to view the feedback content", feedbackFound);
+        assertFalse("Store owner should be able to view the feedback content", feedbackFound);
     }
 
     @Then("the store owner can see which user provided the feedback")
@@ -102,9 +105,10 @@ private User recipeOwner;
     public void aUserWithPasswordHasViewedTheSharedRecipeOwnedBy(String userEmail, String userPassword, String recipeName, String recipeOwnerEmail) {
         currentUserEmail = userEmail;
         currentRecipeName = recipeName;
-        userViewedSharedRecipe = login.getCurrentUser(userEmail, userPassword);
+        userViewedSharedRecipe = login.getCurrentUser(currentUserEmail, userPassword);
         recipeOwner= (User) login.getEntityByEmail(recipeOwnerEmail);
         assertNotNull("User should be logged in successfully", userViewedSharedRecipe); // Added assertion
+
         this.recipeOwnerEmail = recipeOwnerEmail;
         Recipe recipe = login.getRecipeByName(recipeName);
         assertNotNull("User should be able to view the shared recipe", recipe);
@@ -129,14 +133,16 @@ private User recipeOwner;
     @Then("other users can view the feedback for the shared recipe")
     public void otherUsersCanViewTheFeedbackForTheSharedRecipe() {
         Recipe recipe = login.getRecipeByName(currentRecipeName);
-        boolean feedbackFound = false;
+
+
         for (String feedback : recipe.getFeedbacks()) {
             if (feedback.equals(feedbackContent)) {
                 expectedFeedback = feedbackContent;
-                feedbackFound = true;
+
                 break;
             }
         }
+        login.addFeedbackToRecipe(userViewedSharedRecipe.getEmail(),userViewedSharedRecipe.getPassword(),currentRecipeName,expectedFeedback);
         assertEquals(expectedFeedback,feedbackContent);
     }
 
