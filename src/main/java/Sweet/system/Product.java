@@ -17,8 +17,9 @@ public class Product {
     private String providerEmail;
     private List<String>feedbacks;
 
-    public double sales; // New field to track total sales
-    public double totalRevenue; // New field to track total revenue
+    protected double sales; // New field to track total sales
+    private double totalRevenue; // New field to track total revenue
+
 
 
 
@@ -38,7 +39,7 @@ public class Product {
         this.totalRevenue = 0;
     }
 
-    public void Product_provider(String name, double price, String description, String dietaryNeeds, String providerEmail) {
+    public void setProductProvider(String name, double price, String description, String dietaryNeeds, String providerEmail) {
         this.name = name;
         this.price = price;
         this.description = description;
