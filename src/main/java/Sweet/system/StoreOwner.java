@@ -31,20 +31,20 @@ public class StoreOwner extends ProductOwner {
         login.sendMessageToStoreOwner(email, userEmail, response);
     }
 
-    public List<User> Order_Management(String ownerEmail) {
-        List<User> user_returns = new ArrayList<>();
+    public List<User>orderManagement(String ownerEmail) {
+        List<User> userReturns = new ArrayList<>(); // Renamed local variable
         Set<User> uniqueUsers = new HashSet<>();
         List<Product> storeProducts = new Login().getStoreOwnerProducts(ownerEmail);
 
         for (User currentUser : getUserpurchased()) {
             if (hasOrderedProducts(currentUser, storeProducts) && !uniqueUsers.contains(currentUser)) {
                 uniqueUsers.add(currentUser);
-                user_returns.add(currentUser);
+                userReturns.add(currentUser);
                 // Optional: output.add("User Email: " + currentUser.getEmail());
             }
         }
 
-        return user_returns;
+        return userReturns;
     }
 
     private boolean hasOrderedProducts(User user, List<Product> storeProducts) {
