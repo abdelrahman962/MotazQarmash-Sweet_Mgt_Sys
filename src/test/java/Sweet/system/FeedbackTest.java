@@ -17,7 +17,7 @@ public class FeedbackTest {
     private String feedbackContent;
     private String currentUserEmail;
     private String currentRecipeName;
-    
+
     private Recipe recipe;
     private     String expectedFeedback;
     private User recipeOwner;
@@ -59,8 +59,8 @@ public class FeedbackTest {
         storeOwner.setEmail(storeOwnerEmail);
         List<Product> productsFeed = login.getStoreOwnerProducts(storeOwnerEmail);
         boolean feedbackFound = false;
-        for (Product product : productsFeed) {
-            if (product.getFeedbacks().contains(feedbackContent)) {
+        for (Product productFeed : productsFeed) {
+            if (productFeed.getFeedbacks().contains(feedbackContent)) {
                 feedbackFound = true;
                 break;
             }
@@ -108,13 +108,15 @@ public class FeedbackTest {
         currentUserEmail = userEmail;
         currentRecipeName = recipeName;
         userViewedSharedRecipe = login.getCurrentUser(currentUserEmail, userPassword);
-        recipeOwner= (User) login.getEntityByEmail(recipeOwnerEmail);
+        recipeOwner = (User) login.getEntityByEmail(recipeOwnerEmail);
+
         assertNotNull("User should be logged in successfully", userViewedSharedRecipe); // Added assertion
 
+        Recipe viewedRecipe = login.getRecipeByName(recipeName);
 
-        Recipe recipe = login.getRecipeByName(recipeName);
-        assertNotNull("User should be able to view the shared recipe", recipe);
+        assertNotNull("User should be able to view the shared recipe", viewedRecipe);
     }
+
 
 
     @When("the user provides feedback {string} on the shared recipe")
