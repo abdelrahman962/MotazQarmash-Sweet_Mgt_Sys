@@ -258,7 +258,6 @@ public class Product_Management_Test {
     @Then("the product {string} should show the discounted price in the store")
     public void theProductShouldShowTheDiscountedPriceInTheStore(String name) {
         Product expect = new Product(name,22,"","","owner@example.com");
-
         int index=0;
         storeOwner.addProduct(expect);
 
@@ -270,10 +269,7 @@ public class Product_Management_Test {
         storeOwner.products.get(index).applyDiscount(15);
         Product discountedProduct = storeOwner.findProductByName(name);
         assertNotNull(discountedProduct);
-        assertTrue( 18.7==discountedProduct.getPrice() );
-
-
-
+        assertEquals(18.7, discountedProduct.getPrice(), 0.001);
 
         index=0;
         provider.addProduct(expect);
