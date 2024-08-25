@@ -136,19 +136,21 @@ public class FeedbackTest {
 
     @Then("other users can view the feedback for the shared recipe")
     public void otherUsersCanViewTheFeedbackForTheSharedRecipe() {
-        Recipe recipe = login.getRecipeByName(currentRecipeName);
+        Recipe sharedRecipe = login.getRecipeByName(currentRecipeName);
 
-
-        for (String feedback : recipe.getFeedbacks()) {
+        String expectedFeedback = null;
+        for (String feedback : sharedRecipe.getFeedbacks()) {
             if (feedback.equals(feedbackContent)) {
                 expectedFeedback = feedbackContent;
-
                 break;
             }
         }
-        login.addFeedbackToRecipe(userViewedSharedRecipe.getEmail(),userViewedSharedRecipe.getPassword(),currentRecipeName,expectedFeedback);
-        assertEquals(expectedFeedback,feedbackContent);
+
+        // Assuming the userViewedSharedRecipe is defined and contains the appropriate email and password
+        login.addFeedbackToRecipe(userViewedSharedRecipe.getEmail(), userViewedSharedRecipe.getPassword(), currentRecipeName, expectedFeedback);
+        assertEquals("Feedback content should match", expectedFeedback, feedbackContent);
     }
+
 
 
 }
