@@ -17,6 +17,14 @@
         <cucumber.version>7.18.1</cucumber.version>
         <maven.compiler.source>19</maven.compiler.source>
         <maven.compiler.target>19</maven.compiler.target>
+
+            <sonar.organization>sweetsysabdmotaz</sonar.organization>
+            <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+            <sonar.projectKey>sweetsysabdmotaz_MotazQarmash-Sweet_Mgt_Sys</sonar.projectKey> <!-- Your SonarCloud project key -->
+            <sonar.login>SONAR_TOKEN</sonar.login> <!-- Store this in a secure environment variable -->
+            <sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+
+
     </properties>
 
     <dependencies>
@@ -58,30 +66,54 @@
         </dependency>
     </dependencies>
 
-    <build>
-        <plugins>
-            <!-- JaCoCo Plugin for Code Coverage -->
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.11</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>report</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
 
-            <!-- SonarCloud Plugin -->
+        <build>
+            <plugins>
+                <!-- Existing JaCoCo Plugin -->
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>0.8.12</version> <!-- Ensure consistency in version -->
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>prepare-agent</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>report</id>
+                            <phase>test</phase>
+                            <goals>
+                                <goal>report</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- SonarCloud Plugin -->
+                <plugin>
+                    <groupId>org.sonarsource.scanner.maven</groupId>
+                    <artifactId>sonar-maven-plugin</artifactId>
+                    <version>3.9.1.2184</version> <!-- Use the latest stable version -->
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>sonar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>22</source>
+                        <target>22</target>
+                    </configuration>
+                </plugin>
+
+
+                <!-- SonarCloud Plugin -->
 
         </plugins>
     </build>
