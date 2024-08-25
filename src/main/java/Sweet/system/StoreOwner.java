@@ -40,7 +40,6 @@ public class StoreOwner extends ProductOwner {
             if (hasOrderedProducts(currentUser, storeProducts) && !uniqueUsers.contains(currentUser)) {
                 uniqueUsers.add(currentUser);
                 userReturns.add(currentUser);
-                // Optional: output.add("User Email: " + currentUser.getEmail());
             }
         }
 
