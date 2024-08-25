@@ -15,7 +15,7 @@ public class Login {
     private static final List<Recipe> recipes = new ArrayList<>();
     private static final List<Product> products = new ArrayList<>();
     public static final List<String> productFeedback = new ArrayList<>();
-    private static final List<String> recipeFeedback = new ArrayList<>();
+    protected static final List<String> recipeFeedback = new ArrayList<>();
 
     public static final String M2N_EMAIL="m2n@gmail.com";
     public static final String ABOOD_EMAIL = "abdelrahmanmasri3@gmail.com";
