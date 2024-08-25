@@ -398,10 +398,10 @@ public class Login {
     public void addFeedbackToRecipe(String email, String password, String recipeName, String feedbackContent) {
         User user = getCurrentUser(email, password);
         if (user != null) {
-            Recipe recipes = searchRecipes(recipeName.trim()).get(0);
-            if (recipes !=null) {
+            Recipe recipesAdd = searchRecipes(recipeName.trim()).get(0);
+            if (recipesAdd !=null) {
                 recipeFeedback.add(feedbackContent);
-                recipes.addFeedback(user, feedbackContent);
+                recipesAdd.addFeedback(user, feedbackContent);
 
             }
         }
