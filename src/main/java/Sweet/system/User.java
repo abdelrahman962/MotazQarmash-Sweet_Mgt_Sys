@@ -130,9 +130,9 @@ User {
 
 
 
-    public List<Product> best_selling(StoreOwner StoreOwner)
+    public List<Product> bestSelling(StoreOwner storeOwner)
     {
-        return  StoreOwner.getBestSellingProducts();
+        return  storeOwner.getBestSellingProducts();
     }
 
 
