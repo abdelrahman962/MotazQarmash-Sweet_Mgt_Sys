@@ -11,6 +11,12 @@ public class Login {
     String user = "user";
     public static final String M2N_EMAIL="m2n@gmail.com";
     public static final String ABOOD_EMAIL = "abdelrahmanmasri3@gmail.com";
+    public static final String ABOOD333_EMAIL = "abdelrahmanmasri333@gmail.com";
+    public static final String JANE_EMAIL = "jane.doe@example.com";
+    public static final String NABLUS="Nablus";
+    public static final String CHOCOLATE_CAKE="Chocolate Cake";
+    public static final String BERRY_CAKE="Berry Cake";
+    public static final String BERRY_Chocolate_Cake="Berry Chocolate Cake";
     public static final String MOTA12_EMAIL = "mota12@gmail.com";
     public static final String JOHN_EMAIL = "john.doe@example.com";
     public static final String PASS1="123";
@@ -43,13 +49,13 @@ public class Login {
         User u2 = new User(M2N_EMAIL, PASS1, user);
         User u3 = new User(ABOOD_EMAIL, PASS1, user);
         User u4 = new User(JOHN_EMAIL, PASS1, user);
-        User u5 = new User("jane.doe@example.com", PASS1, user);
+        User u5 = new User(JANE_EMAIL, PASS1, user);
         User u6 = new User("s1211161@stu.najah.edu", PASS1, user);
-        StoreOwner s1 = new StoreOwner(MOTA12_EMAIL, PASS2, "Nablus");
+        StoreOwner s1 = new StoreOwner(MOTA12_EMAIL, PASS2, NABLUS);
         StoreOwner s2 = new StoreOwner("motar2@gmail.com", PASS2, "Jenin");
-        StoreOwner s3 = new StoreOwner("moa123@gmail.com", PASS2, "Nablus");
-        Provider p1 = new Provider("abdelrahmanmasri333@gmail.com", PASS1,"Nablus");
-        Provider p2 = new Provider("johnnn.doe@example.com", PASS1,"Nablus");
+        StoreOwner s3 = new StoreOwner("moa123@gmail.com", PASS2, NABLUS);
+        Provider p1 = new Provider(ABOOD333_EMAIL, PASS1,NABLUS);
+        Provider p2 = new Provider("johnnn.doe@example.com", PASS1,NABLUS);
         providers.add(p1);
         providers.add(p2);
         users.add(u1);
@@ -68,7 +74,7 @@ public class Login {
     public void initfeedback(){
         Message message1=new Message(JOHN_EMAIL,"as12112958@stu.najah.edu ","Tried this recipe, and it turned out great!");
 
-        addFeedbackToRecipe(JOHN_EMAIL,PASS1,"Chocolate Cake","Tried this recipe, and it turned out great!");
+        addFeedbackToRecipe(JOHN_EMAIL,PASS1,CHOCOLATE_CAKE,"Tried this recipe, and it turned out great!");
         sendMessageToUser(message1.getSenderEmail(),message1.getReceiverEmail(),message1.getContent());
 
 
@@ -76,18 +82,18 @@ public class Login {
     public void initiateRecipe() {
         // Initialize recipes
 
-        addRecipe(M2N_EMAIL, PASS1, "Chocolate Cake", "Delicious chocolate cake recipe.");
-        addRecipe(M2N_EMAIL, PASS1, "Berry Chocolate Cake", "Chocolate cake with berries.");
-        addRecipe("jane.doe@example.com", PASS1, "Chocolate Cake", "Delicious chocolate cake recipe.");
-        addRecipe("jane.doe@example.com", PASS1, "Berry Chocolate Cake", "Chocolate cake with berries.");
-        addRecipe("john.doe@gmail.com", PASS1, "Berry Chocolate Cake", "Berry cake with mixed berries.");
-        addRecipe("s1211161@stu.najah.edu ",PASS1,"Berry Cake","Delicious Berry cake recipe.");
+        addRecipe(M2N_EMAIL, PASS1, CHOCOLATE_CAKE, "Delicious chocolate cake recipe.");
+        addRecipe(M2N_EMAIL, PASS1, BERRY_Chocolate_Cake, "Chocolate cake with berries.");
+        addRecipe(JANE_EMAIL, PASS1, CHOCOLATE_CAKE, "Delicious chocolate cake recipe.");
+        addRecipe(JANE_EMAIL, PASS1, BERRY_Chocolate_Cake, "Chocolate cake with berries.");
+        addRecipe("john.doe@gmail.com", PASS1, BERRY_Chocolate_Cake, "Berry cake with mixed berries.");
+        addRecipe("s1211161@stu.najah.edu ",PASS1,BERRY_CAKE,"Delicious Berry cake recipe.");
     }
 
 
     public void initiateProduct() {
-        addProduct(MOTA12_EMAIL, PASS2, "Nablus", "Chocolate Cake", 10.00, "Delicious chocolate cake with rich frosting. Gluten-free.", "gluten-free");
-        addProduct(MOTA12_EMAIL, PASS2, "Nablus", "Berry Cake", 12.00, "Delicious Berry cake recipe.contains gluten", "contains gluten");
+        addProduct(MOTA12_EMAIL, PASS2, NABLUS, CHOCOLATE_CAKE, 10.00, "Delicious chocolate cake with rich frosting. Gluten-free.", "gluten-free");
+        addProduct(MOTA12_EMAIL, PASS2, NABLUS, BERRY_CAKE, 12.00, "Delicious Berry cake recipe.contains gluten", "contains gluten");
         addProduct("moa123@gmail.com",PASS2,"Jenin","Fruit Cake",20,"Fruit cake is a dense, rich cake filled with a variety of dried fruits and nuts.","");
 
 
@@ -96,15 +102,15 @@ public class Login {
     public void initMessages() {
         // Sending messages from users to store owners and providers
         Message message1=new Message(ABOOD_EMAIL,"mota12@gmail.com ","Great chocolate cake, loved it!  ");
-        addFeedbackToProduct(ABOOD_EMAIL,PASS1,"Chocolate Cake","Great chocolate cake, loved it!");
-        addFeedbackToProduct("s1211161@stu.najah.edu ",PASS1,"Berry Cake","The berry cake was delicious, highly recommend!");
+        addFeedbackToProduct(ABOOD_EMAIL,PASS1,CHOCOLATE_CAKE,"Great chocolate cake, loved it!");
+        addFeedbackToProduct("s1211161@stu.najah.edu ",PASS1,BERRY_CAKE,"The berry cake was delicious, highly recommend!");
         sendMessageToStoreOwner(message1.getSenderEmail(),message1.getReceiverEmail(),message1.getContent());
         // User: abdelrahmanmasri3@gmail.com to Store Owner: mota12@gmail.com
         sendMessageToStoreOwner(ABOOD_EMAIL, MOTA12_EMAIL,
                 "Can you provide more details about the ingredients of the Chocolate Cake?");
 
         // User: abdelrahmanmasri3@gmail.com to Provider: abdelrahmanmasri333@gmail.com
-        sendMessageToProvider(ABOOD_EMAIL, "abdelrahmanmasri333@gmail.com",
+        sendMessageToProvider(ABOOD_EMAIL, ABOOD333_EMAIL,
                 "I need assistance with bulk ordering ingredients for a Berry Cake. Can you help?");
 
         // Responses from Store Owner and Provider to the user
@@ -114,7 +120,7 @@ public class Login {
                 "The Chocolate Cake contains flour, sugar, cocoa powder, eggs, and butter. It is gluten-free.");
 
         // Provider: abdelrahmanmasri333@gmail.com responds to User: abdelrahmanmasri3@gmail.com
-        sendMessageToUser("abdelrahmanmasri333@gmail.com", ABOOD_EMAIL,
+        sendMessageToUser(ABOOD333_EMAIL, ABOOD_EMAIL,
                 "Yes, we can provide bulk ingredients for Berry Cake. Please specify the quantities and delivery date.");
     }
 
@@ -258,31 +264,50 @@ public class Login {
     }
 
     public void updateUserEmail(String oldEmail, String newEmail, String role) {
-        if(role.equals("user")){
-            for (User user : users) {
-                if (user.getEmail().equals(oldEmail)) {
-                    user.setEmail(newEmail);
-                    break;
-                }
+        switch (role.toLowerCase()) {
+            case "user":
+                updateUserEmailInList(users, oldEmail, newEmail);
+                break;
+            case "storeowner":
+                updateStoreOwnerEmailInList(storeOwners, oldEmail, newEmail);
+                break;
+            case "provider":
+                updateProviderEmailInList(providers, oldEmail, newEmail);
+                break;
+            default:
 
-            }}
-        else if(role.equals("storeowner")){
-            for (StoreOwner i : storeOwners) {
-                if (i.getEmail().equals(oldEmail)) {
-                    i.setEmail(newEmail);
-                    break;
-                }
-            }
+                break;
         }
-        else{
-            for (Provider i : providers) {
-                if (i.getEmail().equals(oldEmail)) {
-                    i.setEmail(newEmail);
-                    break;
-                }
+    }
+
+    private void updateUserEmailInList(List<User> list, String oldEmail, String newEmail) {
+        for (User user : list) {
+            if (user.getEmail().equals(oldEmail)) {
+                user.setEmail(newEmail);
+                break;
             }
         }
     }
+
+    private void updateStoreOwnerEmailInList(List<StoreOwner> list, String oldEmail, String newEmail) {
+        for (StoreOwner storeOwner : list) {
+            if (storeOwner.getEmail().equals(oldEmail)) {
+                storeOwner.setEmail(newEmail);
+                break;
+            }
+        }
+    }
+
+    private void updateProviderEmailInList(List<Provider> list, String oldEmail, String newEmail) {
+        for (Provider provider : list) {
+            if (provider.getEmail().equals(oldEmail)) {
+                provider.setEmail(newEmail);
+                break;
+            }
+        }
+    }
+
+
 
     public void updateUserPassword(String email, String newPassword, String role) {
         if(role.equals("user")) {
