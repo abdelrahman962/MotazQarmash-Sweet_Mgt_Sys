@@ -118,9 +118,7 @@ public class Product {
         return dietaryNeeds;
     }
 
-    public Map<User, List<String>> getUserFeedbacks() {
-        return userFeedbacks;
-    }
+
 
     public void addFeedback(User user, String feedback) {
         userFeedbacks.putIfAbsent(user, new ArrayList<>());
