@@ -114,12 +114,13 @@ user.addMessage(m);
         }
     }
 
-    @Then("the user with the email {string} should receive my response as a message")
+    @Then
+            ("the user with the email {string} should receive my response as a message")
     public void theUserWithTheEmailShouldReceiveMyResponseAsAMessage(String userEmail) {
-        User user = login.findUserByEmail(userEmail);
-        assertNotNull("User should be found", user);
-        List<Message> messages = user.getMessages();
+        User foundUser = login.findUserByEmail(userEmail);
 
+        assertNotNull("User should be found", foundUser);
+        List<Message> messages = foundUser.getMessages();
         boolean responseReceived = false;
         for (Message message : messages) {
             if (message.getContent().equals(responseContent)) {
@@ -129,6 +130,7 @@ user.addMessage(m);
         }
         assertTrue("User should receive the response message", responseReceived);
     }
+
 
     @Then("I should see a confirmation that my response was sent successfully")
     public void iShouldSeeAConfirmationThatMyResponseWasSentSuccessfully() {
