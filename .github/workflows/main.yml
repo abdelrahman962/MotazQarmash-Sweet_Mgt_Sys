@@ -30,8 +30,14 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
-      - name: Build and analyze
+      - name: Build and test with Maven
+        run: mvn -B verify
+      - name: Run SonarCloud Scan
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=sweetsysabdmotaz_MotazQarmash-Sweet_Mgt_Sys
+        run: mvn sonar:sonar \
+                 -Dsonar.projectKey=sweetsysabdmotaz_MotazQarmash-Sweet_Mgt_Sys \
+                 -Dsonar.organization=sweetsysabdmotaz \
+                 -Dsonar.host.url=https://sonarcloud.io \
+                 -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
+                 -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
