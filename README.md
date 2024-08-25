@@ -1,2 +1,2 @@
- Sweet_Mgt_System
+ Sweet_Magt_System
  
