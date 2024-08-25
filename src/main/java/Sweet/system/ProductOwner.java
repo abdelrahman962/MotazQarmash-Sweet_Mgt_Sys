@@ -10,7 +10,7 @@ public abstract class ProductOwner {
     protected String city;
     protected List<Product> products;
 
-    public ProductOwner(String email, String password, String city) {
+    protected ProductOwner(String email, String password, String city) {
         this.email = email;
         this.password = password;
         this.city = city;
