@@ -88,19 +88,10 @@ User {
         basket.clear();
     }
 
-    public void sendMessageToStoreOwner(Login login, String storeOwnerEmail, String message, Product currentProduct) {
-        login.sendMessageToStoreOwner(email, storeOwnerEmail, message);
-    }
 
 
 
-    public void addNotification(String notification) {
-        notifications.add(notification);
-    }
-
-    public List<String> getNotifications() {
-        return new ArrayList<>(notifications);
-    }
+  
 
     public void addMessage(Message message) {
         messages.add(message);  // Store the message in the user's message list
