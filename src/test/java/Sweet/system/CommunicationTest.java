@@ -9,7 +9,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class CommunicationTest {
-Mailing mail;
+
     private Login login;
     private User currentUser;
     private StoreOwner currentStoreOwner;
@@ -30,7 +30,6 @@ private String recipientSenderEmail;
     public void iAmARegisteredUserWithTheEmailAndThePassword(String email, String password) {
         currentUser = login.getCurrentUser(email, password);
         assertNotNull("User should be registered", currentUser);
-
     }
 
     @Given("I am logged into the system")
@@ -45,8 +44,6 @@ private String recipientSenderEmail;
         this.recipientType = recipientType;
         if (recipientType.equalsIgnoreCase("store owner")) {
             currentStoreOwner = login.findStoreOwnerByEmail(email);
-            mail=new Mailing(currentStoreOwner.getEmail());
-
             assertNotNull("Store owner should be found", currentStoreOwner);
         } else if (recipientType.equalsIgnoreCase("provider")) {
             currentProvider = login.findProviderByEmail(email);
@@ -59,7 +56,6 @@ private String recipientSenderEmail;
         messageContent = message;
         recipientEmail = email;
         if (recipientType.equalsIgnoreCase("store owner")) {
-
             confirmationMessage = login.sendMessageToStoreOwner(currentUser.getEmail(), recipientEmail, messageContent);
         } else if (recipientType.equalsIgnoreCase("provider")) {
             confirmationMessage = login.sendMessageToProvider(currentUser.getEmail(), recipientEmail, messageContent);
@@ -120,10 +116,10 @@ user.addMessage(m);
 
     @Then("the user with the email {string} should receive my response as a message")
     public void theUserWithTheEmailShouldReceiveMyResponseAsAMessage(String userEmail) {
-        User targetUser = login.findUserByEmail(userEmail);
+        User user = login.findUserByEmail(userEmail);
+        assertNotNull("User should be found", user);
+        List<Message> messages = user.getMessages();
 
-        assertNotNull("User should be found", targetUser);
-        List<Message> messages = targetUser.getMessages();
         boolean responseReceived = false;
         for (Message message : messages) {
             if (message.getContent().equals(responseContent)) {
@@ -133,8 +129,6 @@ user.addMessage(m);
         }
         assertTrue("User should receive the response message", responseReceived);
     }
-
-
 
     @Then("I should see a confirmation that my response was sent successfully")
     public void iShouldSeeAConfirmationThatMyResponseWasSentSuccessfully() {
