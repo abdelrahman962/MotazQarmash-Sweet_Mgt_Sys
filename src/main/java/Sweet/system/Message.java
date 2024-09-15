@@ -5,18 +5,13 @@ public class Message {
     private String content;
     private String receiverEmail;
     Product currentProduct;
+
     public Message(String senderEmail, String recieverEmail, String content) {
         this.senderEmail = senderEmail;
         this.content = content;
         this.receiverEmail = recieverEmail;
     }
 
-    public Message(String senderEmail, String recieverEmail, String content, Product currentProduct) {
-        this.senderEmail = senderEmail;
-        this.content = content;
-        this.receiverEmail = recieverEmail;
-        this.currentProduct = currentProduct;
-    }
 
     public String getSenderEmail() {
         return senderEmail;
@@ -25,15 +20,15 @@ public class Message {
     public String getContent() {
         return content;
     }
-public String getReceiverEmail(){
+
+    public String getReceiverEmail() {
         return receiverEmail;
-}
+    }
+
     @Override
     public String toString() {
+
         return "From: " + senderEmail + " - Message: " + content;
     }
 
-    public Product getCurrentProduct() {
-        return currentProduct;
-    }
 }

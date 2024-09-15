@@ -9,8 +9,8 @@ Feature: Feedback on Purchased Products and Shared Recipes
 
     Examples:
       | userEmail                    | userPassword | productName     | storeOwnerEmail      | feedbackContent                                  |
-      | abdelrahmanmasri3@gmail.com  | 123          | Chocolate Cake  | mota12@gmail.com     | Great chocolate cake, loved it!               |
-      | s1211161@stu.najah.edu       | 123          | Berry Cake      | mota12@gmail.com     | The berry cake was delicious, highly recommend!|
+      | s12112958@stu.najah.edu  | 123          | Chocolate Cake  | abdelrahmanmasri3@gmail.com   | Great chocolate cake, loved it!               |
+      | s1211161@stu.najah.edu       | 123          | Berry Cake      | abdelrahmanmasri3@gmail.com     | The berry cake was delicious, highly recommend!|
 
   Scenario Outline: User provides feedback on a shared recipe
     Given a user "<userEmail>" with password "<userPassword>" has viewed the shared recipe "<recipeName>" owned by "<recipeOwnerEmail>"
@@ -21,4 +21,3 @@ Feature: Feedback on Purchased Products and Shared Recipes
     Examples:
       | userEmail                    | userPassword | recipeName      | recipeOwnerEmail             | feedbackContent                              |
       | john.doe@example.com         | 123          | Chocolate Cake | as12112958@stu.najah.edu      | Tried this recipe, and it turned out great!|
-      | jane.doe@example.com         | 123          |Berry Chocolate Cake    | abdelrahmanmasri3@gmail.com  | Fantastic recipe, will make again!         |

@@ -11,8 +11,8 @@ Feature: Browse and search for dessert recipes and store owner products by name
 
     Examples:
       | userEmail              | userPassword | productName     | dietaryNeed | storeOwnerEmail       | price | description                                      |
-      | jane.doe@example.com   | 123          | Chocolate Cake  | gluten-free | mota12@gmail.com      | 10.00 | Delicious chocolate cake with rich frosting. Gluten-free. |
-      | s1211161@stu.najah.edu       | 123       | Berry Cake      |    contains gluten      |mota12@gmail.com     | 12.00|     Delicious Berry cake recipe.contains gluten|
+      | jane.doe@example.com   | 123          | Chocolate Cake  | gluten-free | abdelrahmanmasri3@gmail.com      | 10.00 | Delicious chocolate cake with rich frosting. Gluten-free. |
+      | s1211161@stu.najah.edu       | 123       | Berry Cake      |    contains gluten      |abdelrahmanmasri3@gmail.com     | 12.00|     Delicious Berry cake recipe.contains gluten|
     |   as12112958@stu.najah.edu  |      123      |  Fruit Cake     |   |     moa123@gmail.com              |  20    |    Fruit cake is a dense, rich cake filled with a variety of dried fruits and nuts.         |
   Scenario Outline: Search for a store owner's product by name that does not exist or did not meet dietary needs or food allergies
     Given a user with email "<userEmail>" and password "<userPassword>" is logged in

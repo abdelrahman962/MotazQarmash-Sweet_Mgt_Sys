@@ -3,6 +3,7 @@ package Sweet.system;
 
 import java.util.*;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class Main {
     private static final int STORE_OWNER = 2;
@@ -12,7 +13,6 @@ public class Main {
     public static final int NOT_VALID = 0;
     static Scanner scanner = new Scanner(System.in);
     static Login login = new Login();
-
     public static final int USER_TYPE = 1;
     private static int whichType = 0;
     private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
@@ -60,6 +60,7 @@ public class Main {
             case USER_TYPE:
                 switch (currentUser.getType()) {
                     case 0:
+
                         adminScreen();
                         break;
                     case USER_TYPE:
@@ -128,16 +129,54 @@ public class Main {
             case 3-> updateProduct();
             case 4-> viewProducts();
             case 5 -> communicateWithUsers();
-            case 6-> recieveFeedbacks();
+            case 6-> receiveFeedbacks();
             case 7-> monitorSalesAndProfits();
             case 8 -> identifyBestSellingProducts();
             case 9->implementDynamicDiscountFeatures();
-            case 10-> updateAccount();
+            case 10-> {
+                LOGGER.info("Update Store Owner Account: ");
+                LOGGER.info("""
+                What would you like to update?
+                1. Email
+                2. Password
+                3. City
+                """);
+
+
+                int choiceUpdate = scanner.nextInt();
+
+                switch (choiceUpdate) {
+                    case 1->{
+
+                       LOGGER.info("Enter New Email Address: ");
+                       String newEmail = scanner.nextLine();
+                        login.updateUserEmail(currentStoreOwner.getEmail(),newEmail,currentStoreOwner.getPassword());
+                        currentStoreOwner.setEmail(newEmail);
+                        break;
+                        }
+                    case 2-> {
+                        LOGGER.info("Enter New Password: ");
+                        String newPassword = scanner.nextLine();
+                        login.updateUserPassword(currentStoreOwner.getPassword(),newPassword,currentStoreOwner.getPassword());
+                        currentStoreOwner.setPassword(newPassword);
+                       break;
+                    }
+                    case 3->{
+                        LOGGER.info("Update Store Owner city: ");
+                        String newCity = scanner.nextLine();
+                        currentStoreOwner.setCity(newCity);
+                    }
+                    default->{
+                        LOGGER.info("Invalid choice. No changes made.");
+
+                }}
+
+            }
             case 11 -> {
                 LOGGER.info("Order Management:");
 
                 // Call the Order_Management method to get the list of users
-                List<User> usersWithOrders = currentStoreOwner.Order_Management(currentStoreOwner.getEmail());
+                List<User> usersWithOrders = currentStoreOwner.orderManagement(currentStoreOwner.getEmail());
 
                 // Check if any users were found
                 if (usersWithOrders.isEmpty()) {
@@ -164,8 +203,6 @@ public class Main {
                     }
                 }
             }
-
-
             case 12 -> manageUserRegistration();
             case 13 -> {
                 System.exit(0);
@@ -246,7 +283,7 @@ public class Main {
         LOGGER.info("Product name: ");
         String name = scanner.nextLine();
 
-        Product productToUpdate = login.searchProducts(name).getFirst();
+        Product productToUpdate = login.searchProducts(name).get(0);
 
         if (productToUpdate != null) {
             if (currentStoreOwner.getProducts().contains(productToUpdate)) {
@@ -316,7 +353,7 @@ public class Main {
         String name = scanner.nextLine();
 
         // Search for the product by name
-        Product productToDelete = login.searchProducts(name).getFirst();
+        Product productToDelete = login.searchProducts(name).get(0);
 
         if (productToDelete != null) {
             // Check if the product belongs to the current store owner
@@ -333,8 +370,34 @@ public class Main {
     }
 
 
-    private static void recieveFeedbacks() {
+    private static void receiveFeedbacks() {
+        System.out.println("Receive feedbacks for each product");
+
+
+            List<Product> products = currentStoreOwner.getProducts();
+
+            for (Product product : products) {
+                Map<User, List<String>> feedbackMap = product.getUserProvidedFeedback();
+
+                if (!feedbackMap.isEmpty()) {
+                    System.out.println("Product name: " + product.getName());
+
+                    for (Map.Entry<User, List<String>> entry : feedbackMap.entrySet()) {
+                        User user = entry.getKey();
+                        List<String> feedbacks = entry.getValue();
+
+                        System.out.println("Provided by: " + user.getEmail());
+                        for (String feedback : feedbacks) {
+                            System.out.println("Feedback: " + feedback);
+                        }
+                    }
+
+                    System.out.println();
+                }
+
+        }
     }
+
 
     private static void communicateWithUsers() {
         LOGGER.info("Communicate with Users");
@@ -373,6 +436,9 @@ public class Main {
 
 
     }
+    public static void kop(){
+        LOGGER.info("Nothing");
+    }
 
     private static void addProducts() {
 
@@ -394,7 +460,7 @@ public class Main {
                 Please enter your choice:
                 1. Post and share personal dessert recipes.
                 2. Search for dessert recipes
-                3. Filter recipes based on dietary needs or food allergies.
+                3. Filter Products based on dietary needs or food allergies.
                 4. View All recipes
                 5. Purchase Products
                 6. Communication and Feedback
@@ -405,7 +471,7 @@ public class Main {
         switch (choice) {
             case 1 -> postAndShareRecipe() ;
             case 2 -> searchUserRecipes();
-            case 3->filterRecipesBasedOnDietaryNeed();
+            case 3->filterProductsBasedOnDietaryNeed();
             case 4-> viewRecipes();
             case 5->purchaseProducts();
             case 6->communicationAndFeedback();
@@ -453,7 +519,7 @@ public class Main {
                 LOGGER.info("Feedback content: ");
                 String feedbackContent = scanner.nextLine();
                 LOGGER.info("Providing feedback on product...");
-                p=login.searchProducts(productName).getFirst();
+                p=login.searchProducts(productName).get(0);
                 p.addFeedback(currentUser,feedbackContent);
                 login.addFeedbackToProduct(currentUser.getEmail(), storeOwnerEmail, productName, feedbackContent);
             }
@@ -464,7 +530,7 @@ public class Main {
                 LOGGER.info("Feedback content: ");
                 String feedbackContent = scanner.nextLine();
                 LOGGER.info("Providing feedback on recipe...");
-                r=login.searchRecipes(recipeName).getFirst();
+                r=login.searchRecipes(recipeName).get(0);
                 r.addFeedback(currentUser,feedbackContent);
                 login.addFeedbackToRecipe(currentUser.getEmail(), currentUser.getPassword(), recipeName, feedbackContent);
             }
@@ -499,57 +565,37 @@ public class Main {
 
             case 5 -> {
                 LOGGER.info("View feedback on a recipe");
-                LOGGER.info("Recipe Name: ");
-                String recipeName = scanner.nextLine();
+                for (StoreOwner storeOwner : Login.storeOwners) {
+                    List<Product> adminProducts = storeOwner.getProducts();
+                    LOGGER.info("Store Owner: " + storeOwner.getEmail());
 
-                List<Recipe> recipes = login.searchRecipes(recipeName);
-                if (recipes.isEmpty()) {
-                    LOGGER.info("No recipe found with the name: " + recipeName);
-                    break;
-                }
+                    for (Product product : adminProducts) {
+                        Map<User, List<String>> feedbackMap = product.getUserProvidedFeedback();
 
-                // Retrieve feedbacks via login method
-                List<String> f = login.getRecipeFeedback();
+                        if (!feedbackMap.isEmpty()) {
+                            LOGGER.info("Product name: " + product.getName());
 
-                List<String> feedbacks = new ArrayList<>();
-                List<String> providedFeedbackUserEmail = new ArrayList<>();
+                            for (Map.Entry<User, List<String>> entry : feedbackMap.entrySet()) {
+                                User user = entry.getKey();
+                                List<String> feedbacks = entry.getValue();
 
-                for (Recipe recipe : recipes) {
-                    if (recipe.getName().equalsIgnoreCase(recipeName)) {
-                        feedbacks = recipe.getFeedbacks();  // Fetch feedbacks for the recipe
+                                LOGGER.info("Provided by: " + user.getEmail());
+                                for (String feedback : feedbacks) {
+                                    LOGGER.info("Feedback: " + feedback);
+                                }
+                            }
 
-                        // Combine feedbacks from the recipe with the feedbacks retrieved via login.getRecipeFeedback()
-                        feedbacks.addAll(f);
-
-                        List<User> feedbackUsers = recipe.getUsersProvidedFeedback();  // Fetch list of users who provided feedback
-
-                        // Populate the list of user emails
-                        for (User user : feedbackUsers) {
-                            providedFeedbackUserEmail.add(user != null ? user.getEmail() : "Unknown User");
-                        }
-
-                        // If login.getRecipeFeedback() returns associated emails, add them here
-                        for (int i = 0; i < f.size(); i++) {
-                            providedFeedbackUserEmail.add(currentUser.getEmail());  // Example placeholder, replace with actual logic if needed
+                            LOGGER.info(""); // Blank line for separation
                         }
                     }
                 }
 
-                if (feedbacks.isEmpty()) {
-                    LOGGER.info("No feedback found for recipe: " + recipeName);
-                } else {
-                    LOGGER.info("Feedback for recipe: " + recipeName);
-                    for (int i = 0; i < feedbacks.size(); i++) {
-                        String userEmail = i < providedFeedbackUserEmail.size() ? providedFeedbackUserEmail.get(i) : "Unknown User";
-                        LOGGER.info("User: " + userEmail + " Feedback: " + feedbacks.get(i));
-                    }
-
-
-                }
             }
-            case 6->{
+
+            case 6 -> {
                 LOGGER.info("User receives messages from store owner");
-                List<Message> receivedMessages =login.getMessagesForUser(currentUser.getEmail());
+                List<Message> receivedMessages = login.getMessagesForUser(currentUser.getEmail());
+
                 if (receivedMessages.isEmpty()) {
                     LOGGER.info("No messages found.");
                     return;
@@ -558,10 +604,11 @@ public class Main {
                 LOGGER.info("Received Messages:");
                 for (int i = 0; i < receivedMessages.size(); i++) {
                     Message message = receivedMessages.get(i);
+                    // Print the sender's email followed by the content of the message
                     LOGGER.info("Message " + (i + 1) + ": From " + message.getSenderEmail() + " - " + message.getContent());
                 }
 
-                // Allow the store owner to choose a message to respond to
+                // Allow the user to choose a message to respond to
                 LOGGER.info("Enter the number of the message you want to respond to (or 0 to exit):");
                 int messageNumber = scanner.nextInt();
                 scanner.nextLine(); // Consume newline
@@ -573,7 +620,7 @@ public class Main {
 
                 Message selectedMessage = receivedMessages.get(messageNumber - 1);
 
-                // Get response content from the store owner
+                // Get response content from the user
                 LOGGER.info("Enter your response:");
                 String responseContent = scanner.nextLine();
 
@@ -581,10 +628,8 @@ public class Main {
                 currentUser.respondToMessage(login, selectedMessage.getSenderEmail(), responseContent);
 
                 LOGGER.info("Response sent successfully.");
-
-
-
             }
+
             case 7->userScreen();
             default -> LOGGER.info(INVALID_CHOICE_MESSAGE);
 
@@ -593,9 +638,9 @@ public class Main {
     }
 
 
-    private static void filterRecipesBasedOnDietaryNeed() {
+    private static void filterProductsBasedOnDietaryNeed() {
 
-        LOGGER.info("Filter Recipes based on Dietary Need:");
+        LOGGER.info("Filter Products based on Dietary Need:");
         LOGGER.info("""
             Please enter your choice:
             1. Filter Recipes from specific Store
@@ -693,8 +738,21 @@ public class Main {
             }
         }
 
-        // Display the total price before exiting
+        // After all products are added, ask if the entire order is urgent
         LOGGER.info("Total price of all products in basket: " + totalPrice);
+        LOGGER.info("Is the entire order urgent? (yes/no): ");
+        String urgentChoice = scanner.nextLine();
+        List<Product> urgentProduct=login.getUserBasket(currentUser.getEmail(), currentUser.getPassword());
+        if (urgentChoice.equalsIgnoreCase("yes")) {
+            sendUrgentOrderNotification(currentUser.getEmail(), storeOwnerEmail,urgentProduct);
+        }
+    }
+
+    // Method to send urgent order notification to the store owner
+    private static void sendUrgentOrderNotification(String userEmail, String storeOwnerEmail, List<Product> urgentProduct) {
+        LOGGER.info("Sending urgent order notification to store owner: " + storeOwnerEmail);
+        Mailing mailing = new Mailing(userEmail,storeOwnerEmail,urgentProduct);
+        mailing.sendUrgentOrderMessage(userEmail);
     }
 
 
@@ -747,103 +805,396 @@ public class Main {
         LOGGER.info("Admin screen");
         LOGGER.info("""
                 Please enter your choice:
-                1. Manage User Accounts
-                2. Delete Account
-                3. Update Account
-                4. Monitor profits and generate financial reports
-                5. Identify best-selling products in each store.
-                6. Gather and display statistics on registered users by City (Nablus/Jenin etc...)
-                7. Logout
-                8. Exit""");
+                1. Manage Users Accounts
+                2. Monitor profits and generate financial reports
+                3. Identify best-selling products in each store.
+                4. Gather and display statistics on registered users by City (Nablus/Jenin etc...)
+                5. Manage user feedbacks.
+                6. Logout
+                7. Exit""");
         int choice = scanner.nextInt();
         scanner.nextLine();
         switch (choice) {
             case 1-> manageUserAccounts();
-            case 2 -> deleteAccount();
-            case 3->updateAccount();
+            case 2->monitorProfitsAndGenerateFinancialReports();
+            case 3 -> {
+                LOGGER.info("Identify best-selling products in each store:");
 
-            case 7 -> manageUserRegistration();
-            case 8 -> System.exit(0);
+                // Use a Set to keep track of already processed store owners
+                Set<String> processedEmails = new HashSet<>();
+
+                // Iterate through each store owner
+                for (StoreOwner storeOwner : Login.storeOwners) {
+                    String email = storeOwner.getEmail();
+
+                    // Check if this store owner has already been processed
+                    if (processedEmails.contains(email)) {
+                        LOGGER.info("Duplicate Store Owner Email: " + email + " - Skipping.");
+                        continue; // Skip this iteration
+                    }
+
+                    // Mark this email as processed
+                    processedEmails.add(email);
+
+                    // Retrieve the best-selling products for the current store owner
+                    List<Product> bestProducts = currentUser.bestSelling(storeOwner);
+
+                    LOGGER.info("Store Owner Email: " + email);
+
+                    if (bestProducts.isEmpty()) {
+                        LOGGER.info("No best-selling products found for this store owner.");
+                    } else {
+                        // Print only the first best-selling product
+                        Product firstProduct = bestProducts.get(0); // Get the first product
+                        LOGGER.info("First Best-Selling Product:");
+                        LOGGER.info("Product name: " + firstProduct.getName() +
+                                "\nProduct description: " + firstProduct.getDescription() +
+                                "\nProduct price: " + firstProduct.getPrice() +
+                                "\n");
+                    }
+
+                    LOGGER.info("------"); // Separator between store owners
+                }
+
+                // Return to the admin screen
+                adminScreen();
+            }
+
+
+            // Add additional cases for other options if necessary
+
+
+            case 4 -> displayStatistics();
+            case 5->manageUserFeedbacks();
+           case 6->manageUserRegistration();
+            case 7 -> System.exit(0);
             default -> LOGGER.info(INVALID_CHOICE_MESSAGE);
         }
     }
 
+    private static void displayStatistics() {
+        LOGGER.info("Gather and display statistics on users who purchased by city:");
+
+        // Create a map to hold the count of distinct users who purchased from each store owner by city
+        Map<String, Long> userPurchaseStats = Login.storeOwners.stream()
+                .collect(Collectors.groupingBy(
+                        StoreOwner::getCity, // Group by city
+                        Collectors.summingLong(storeOwner ->
+                                Login.users.stream()
+                                        .filter(user -> hasUserPurchasedFrom(user, storeOwner)) // Check if the user purchased from the store owner
+                                        .distinct() // Ensure users are counted only once per store owner
+                                        .count() // Count the number of users who purchased from this store owner
+                        )
+                ));
+
+        // Display the statistics
+        userPurchaseStats.forEach((city, count) -> {
+            LOGGER.info("City: " + city + " - Number of Users Who Purchased: " + count);
+        });
+
+        adminScreen();
+    }
+
+    private static boolean hasUserPurchasedFrom(User user, StoreOwner storeOwner) {
+        // Check if the user has any products in their basket that match the store owner's products
+        return user.getBasket().stream()
+                .anyMatch(storeOwner.getProducts()::contains);
+    }
+
+
+
+
+
+
+    private static void monitorProfitsAndGenerateFinancialReports() {
+        List<StoreOwner> allStoreOwners = Login.storeOwners;
+        LOGGER.info("Monitor Sales and Generate Financial Reports: ");
+
+        for (StoreOwner st : allStoreOwners) {
+            List<Product> products = st.getProducts();
+            double getTotalSale = 0;
+
+            for (Product p : products) {
+                if (p.getProductQuantity() > 0) {  // Only proceed if the product quantity is greater than 0
+                    double sale = p.getPrice() * p.getProductQuantity();
+                    getTotalSale += sale;
+
+                    LOGGER.info("Product name: " + p.getName() + "\n" +
+                            "Product quantity: " + p.getProductQuantity() + "\n" +
+                            "Product price: " + p.getPrice() + "\n" +
+                            "Total Sale: " + sale + "\n");
+                }
+            }
+
+            LOGGER.info("Total profit: " + getTotalSale + " -> For StoreOwner: " + st.getEmail());
+        }
+
+        adminScreen();
+    }
+
+
+    private static void manageUserFeedbacks() {
+        LOGGER.info("""
+            Manage User Feedbacks for products and recipes:
+            1. Product Feedbacks
+            2. Recipes Feedbacks
+            3. Return to AdminScreen
+            """);
+
+        int choice = scanner.nextInt();
+
+        switch (choice) {
+            case 1 -> {
+                // Iterate over all store owners
+                for (StoreOwner storeOwner : Login.storeOwners) {
+                    List<Product> adminProducts = storeOwner.getProducts();
+
+                    // Flag to check if any product of the store owner has feedback
+                    boolean hasFeedback = false;
+
+                    // Iterate over products of the current store owner
+                    for (Product product : adminProducts) {
+                        // Create a unique identifier for the product instance by combining product name and store owner email
+                        String productIdentifier = storeOwner.getEmail() + ":" + product.getName();
+
+                        // Get feedback map for the current product
+                        Map<User, List<String>> feedbackMap = product.getUserProvidedFeedback();
+
+                        // Check if there is any feedback for the product
+                        if (!feedbackMap.isEmpty()) {
+                            // If feedback exists, set flag and log store owner email
+                            if (!hasFeedback) {
+                                hasFeedback = true;
+                                LOGGER.info("Store Owner: " + storeOwner.getEmail());
+                            }
+
+                            // Log product name
+                            LOGGER.info("Product name: " + product.getName());
+
+                            // Iterate over feedback entries and log user feedback
+                            for (Map.Entry<User, List<String>> entry : feedbackMap.entrySet()) {
+                                User user = entry.getKey();
+                                List<String> feedbacks = entry.getValue();
+
+                                // Log user email
+                                LOGGER.info("Provided by: " + user.getEmail());
+                                // Log each feedback
+                                for (String feedback : feedbacks) {
+                                    LOGGER.info("Feedback: " + feedback);
+                                }
+                            }
+
+                            // Log blank line for separation
+                            LOGGER.info("");
+                        }
+                    }
+
+                    // Call adminScreen only if there was any feedback logged for this store owner
+                    if (hasFeedback) {
+                        adminScreen();
+                    }
+                }
+            }
+            case 2 -> {
+                Map<String, List<Map.Entry<User, List<String>>>> aggregatedFeedback = new HashMap<>();
+List<Recipe>allRecipes=login.getAllRecipes();
+                for (Recipe recipe : allRecipes) {
+                    Map<User, List<String>> feedbackMap = recipe.getUsersProvidedFeedback();
+
+                    if (!feedbackMap.isEmpty()) {
+                        String key = recipe.getOwnerEmail() + "-" + recipe.getName();
+                        aggregatedFeedback.computeIfAbsent(key, k -> new ArrayList<>()).addAll(feedbackMap.entrySet());
+                    }
+                }
+
+                for (Map.Entry<String, List<Map.Entry<User, List<String>>>> entry : aggregatedFeedback.entrySet()) {
+                    String[] details = entry.getKey().split("-");
+                    String ownerEmail = details[0];
+                    String recipeName = details[1];
+
+                    LOGGER.info("Recipe owner: " + ownerEmail);
+                    LOGGER.info("Recipe name: " + recipeName);
+
+                    for (Map.Entry<User, List<String>> feedbackEntry : entry.getValue()) {
+                        User user = feedbackEntry.getKey();
+                        List<String> feedbacks = feedbackEntry.getValue();
+
+                        LOGGER.info("Provided by: " + user.getEmail());
+                        for (String feedback : feedbacks) {
+                            LOGGER.info("Feedback: " + feedback);
+                        }
+
+            LOGGER.info(""); // Blank line for separation
+                        adminScreen();
+                    }}}
+case 3->adminScreen();
+            default -> {
+                LOGGER.info("Invalid choice. Please select 1 or 2.");
+            }
+        }
+
+    }
+
+
+
+
+
+    private static void manageUserAccounts() {
+        LOGGER.info("Manage User Accounts");
+
+        // Clear the console or previous data if necessary
+        // System.out.println("\033[H\033[2J"); // Uncomment if using a console that supports it
+
+        // Print existing accounts
+        printAccounts();
+
+        LOGGER.info("""
+        Do you want:
+        1. Add Account
+        2. Update Account
+        3. Delete Account
+        4. Return to Admin Screen
+        """);
+
+        int choice = scanner.nextInt();
+        scanner.nextLine(); // Consume newline left-over from nextInt
+
+        switch (choice) {
+            case 1 -> addAccount();
+            case 2 -> updateAccount();
+            case 3 -> deleteAccount();
+            case 4 -> adminScreen();
+            default -> LOGGER.info("Invalid choice. Please select a valid option.");
+        }
+    }
+
+    private static void deleteAccount() {
+        LOGGER.info("Enter your email address to delete the account:");
+        String emailToDelete = scanner.nextLine();
+        login.deleteUser(emailToDelete);
+
+        LOGGER.info("Account deleted successfully.");
+        adminScreen();
+    }
+
+    private static void printAccounts() {
+        LOGGER.info("User Accounts:");
+        for (User u : Login.users) {
+            LOGGER.info("User Email: " + u.getEmail() + ", User Password: " + u.getPassword());
+        }
+
+        LOGGER.info("Store Owners:");
+        for (StoreOwner s : Login.storeOwners) {
+            LOGGER.info("Store Owner Email: " + s.getEmail() + ", Store Owner Password: " + s.getPassword());
+        }
+
+        LOGGER.info("Providers:");
+        for (Provider p : Login.providers) {
+            LOGGER.info("Provider Email: " + p.getEmail() + ", Provider Password: " + p.getPassword());
+        }
+    }
+
+    private static void addAccount() {
+        LOGGER.info("Add Account");
+        LOGGER.info("Enter new email:");
+        String newEmail = scanner.nextLine();
+
+        boolean emailExists = Login.users.stream().anyMatch(user -> user.getEmail().equals(newEmail))
+                || Login.storeOwners.stream().anyMatch(owner -> owner.getEmail().equals(newEmail))
+                || Login.providers.stream().anyMatch(provider -> provider.getEmail().equals(newEmail));
+
+        if (emailExists) {
+            LOGGER.info("Email already exists. Cannot add new account with this email.");
+            return;
+        }
+
+        LOGGER.info("Enter new Password:");
+        String newPassword = scanner.nextLine();
+        LOGGER.info("Enter new City:");
+        String newCity = scanner.nextLine();
+        LOGGER.info("Enter Role (User/StoreOwner/Provider): ");
+        String role = scanner.nextLine();
+
+        switch (role.toLowerCase()) {
+            case "user" -> login.addUser(newEmail, newPassword);
+            case "storeowner" -> login.addStoreOwner(newEmail, newPassword, newCity);
+            case "provider" -> login.addServiceProvider(newEmail, newPassword, newCity);
+            default -> LOGGER.info("Invalid role. No account added.");
+        }
+        LOGGER.info("Account added successfully.");
+    }
+
     private static void updateAccount() {
         LOGGER.info("Update Account");
-
         LOGGER.info("Enter the email of the account to update:");
-        String email = scanner.nextLine();
-
-        Object userType = login.getEntityByEmail(email);
+        String oldEmail = scanner.nextLine();
+        Object userType = login.getEntityByEmail(oldEmail);
 
         if (userType == null) {
             LOGGER.info("No account found with the provided email.");
             return;
         }
+
         LOGGER.info("""
-                What would you like to update?
-                1. Email
-                2. Password""");
+        What would you like to update?
+        1. Email
+        2. Password""");
 
+        String updateChoice = scanner.nextLine();
 
-        String choice = scanner.nextLine();
+        switch (updateChoice) {
+            case "1" -> updateEmail(userType, oldEmail);
+            case "2" -> updatePassword(userType, oldEmail);
+            default -> LOGGER.info("Invalid choice. No changes made.");
+        }
+    }
 
-        switch (choice) {
-            case "1":
-                LOGGER.info("Enter new email:");
-                String newEmail = scanner.nextLine();
-                if (userType instanceof User) {
-                    ((User) userType).setEmail(newEmail);
-                    LOGGER.info("User email updated successfully.");
-                } else if (userType instanceof StoreOwner) {
-                    ((StoreOwner) userType).setEmail(newEmail);
-                    LOGGER.info("Store owner email updated successfully.");
-                } else if (userType instanceof Provider) {
-                    ((Provider) userType).setEmail(newEmail);
-                    LOGGER.info("Provider email updated successfully.");
-                }
-                break;
-            case "2":
-                LOGGER.info("Enter new password:");
-                String newPassword = scanner.nextLine();
-                if (userType instanceof User) {
-                    ((User) userType).setPassword(newPassword);
-                    LOGGER.info("User password updated successfully.");
-                } else if (userType instanceof StoreOwner) {
-                    ((StoreOwner) userType).setPassword(newPassword);
-                    LOGGER.info("Store owner password updated successfully.");
-                } else if (userType instanceof Provider) {
-                    ((Provider) userType).setPassword(newPassword);
-                    LOGGER.info("Provider password updated successfully.");
-                }
-                break;
-            default:
-                LOGGER.info("Invalid choice. No changes made.");
-                break;
+    private static void updateEmail(Object userType, String oldEmail) {
+        LOGGER.info("Enter new email:");
+        String newEmail = scanner.nextLine();
+        boolean emailAlreadyExists = Login.users.stream().anyMatch(user -> user.getEmail().equals(newEmail))
+                || Login.storeOwners.stream().anyMatch(owner -> owner.getEmail().equals(newEmail))
+                || Login.providers.stream().anyMatch(provider -> provider.getEmail().equals(newEmail));
+
+        if (emailAlreadyExists) {
+            LOGGER.info("The new email already exists. Please choose a different email.");
+            return;
+        }
+
+        if (userType instanceof User) {
+            ((User) userType).setEmail(newEmail);
+            login.updateUserEmail(oldEmail, newEmail, "user");
+            LOGGER.info("User email updated successfully.");
+        } else if (userType instanceof StoreOwner) {
+            ((StoreOwner) userType).setEmail(newEmail);
+            login.updateUserEmail(oldEmail, newEmail, "storeowner");
+            LOGGER.info("Store owner email updated successfully.");
+        } else if (userType instanceof Provider) {
+            ((Provider) userType).setEmail(newEmail);
+            login.updateUserEmail(oldEmail, newEmail, "provider");
+            LOGGER.info("Provider email updated successfully.");
+        }
+    }
+
+    private static void updatePassword(Object userType, String oldEmail) {
+        LOGGER.info("Enter new password:");
+        String newPassword = scanner.nextLine();
+        if (userType instanceof User) {
+            ((User) userType).setPassword(newPassword);
+            login.updateUserPassword(oldEmail, newPassword, "user");
+            LOGGER.info("User password updated successfully.");
+        } else if (userType instanceof StoreOwner) {
+            ((StoreOwner) userType).setPassword(newPassword);
+            login.updateUserPassword(oldEmail, newPassword, "storeowner");
+            LOGGER.info("Store owner password updated successfully.");
+        } else if (userType instanceof Provider) {
+            ((Provider) userType).setPassword(newPassword);
+            login.updateUserPassword(oldEmail, newPassword, "provider");
+            LOGGER.info("Provider password updated successfully.");
         }
     }
 
 
-    private static void manageUserAccounts() {
-        LOGGER.info("Manage User Accounts");
-        for(User u: login.users){
-            LOGGER.info("User Email: " + u.getEmail()+", User Password: " + u.getPassword());
-        }
-        for(StoreOwner s: login.storeOwners){
-            LOGGER.info("Store Owner Email: " + s.getEmail()+", Store Owner Password: " + s.getPassword());
-        }
-
-    }
-
-    private static void deleteAccount() {
-        String emailDelete;
-        LOGGER.info("Enter your email address to delete account:");
-        emailDelete = scanner.nextLine();
-        LOGGER.info("Delete account: " + emailDelete);
-        deleteUserAccounts(emailDelete);
-        login.deleteUser(emailDelete);
-        adminScreen();
-    }
     public static void deleteUserAccounts(String email) {
 
     }
@@ -878,14 +1229,12 @@ public class Main {
                 currentUser = login.getCurrentUser(email, password);
                 currentStoreOwner = null;
                 currentProvider=null;
-
                 login.setLogInStatus(true);
                 break;
             case STORE_OWNER:
                 currentStoreOwner = login.getStoreOwner(email, password);
                 currentUser = null;
                 currentProvider=null;
-
                 login.setLogInStatus(true);
                 break;
             case PROVIDER:
@@ -902,7 +1251,35 @@ public class Main {
         }
     }
 
+    private static void receiveAllFeedbacks() {
+        System.out.println("Receive feedbacks for each product from all store owners");
+
+        List<StoreOwner> storeOwners = Login.storeOwners; // Assuming you have a method to get all store owners
+
+        for (StoreOwner storeOwner : storeOwners) {
+            System.out.println("Store Owner: " + storeOwner.getEmail());
+
+            List<Product> products = storeOwner.getProducts();
+
+            for (Product product : products) {
+                Map<User, List<String>> feedbackMap = product.getUserProvidedFeedback();
+
+                if (!feedbackMap.isEmpty()) {
+                    System.out.println("Product name: " + product.getName());
+
+                    for (Map.Entry<User, List<String>> entry : feedbackMap.entrySet()) {
+                        User user = entry.getKey();
+                        List<String> feedbacks = entry.getValue();
+
+                        System.out.println("Provided by: " + user.getEmail());
+                        for (String feedback : feedbacks) {
+                            System.out.println("Feedback: " + feedback);
+                        }
+                    }
+                    System.out.println();
+                }
+            }
+        }
+    }
 
 }
-
-

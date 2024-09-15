@@ -30,7 +30,7 @@ public class Account_Manegment_Test {
 
     @Then("the store owner's or provider's email should be updated to {string}")
     public void theStoreOwnerSOrProviderSEmailShouldBeUpdatedTo(String expectedEmail) {
-        System.out.print(provider.getEmail());
+
         assertEquals (expectedEmail,storeOwner.getEmail());
 
         assertEquals(expectedEmail , provider.getEmail());

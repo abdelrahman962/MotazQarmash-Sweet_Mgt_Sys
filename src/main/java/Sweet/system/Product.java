@@ -15,14 +15,10 @@ public class Product {
     private Map<User, List<String>> userFeedbacks; // Use a Map to store feedbacks
 
     private String providerEmail;
-    private List<String>feedbacks;
+    private List<String> feedbacks;
 
-    public double sales; // New field to track total sales
-    public double totalRevenue; // New field to track total revenue
-
-
-
-
+    protected double sales; // New field to track total sales
+    private double totalRevenue; // New field to track total revenue
 
 
     public Product(String name, double price, String description, String dietaryNeeds, String storeOwnerEmail) {
@@ -38,29 +34,6 @@ public class Product {
         this.totalRevenue = 0;
     }
 
-    public void Product_provider(String name, double price, String description, String dietaryNeeds, String providerEmail) {
-        this.name = name;
-        this.price = price;
-        this.description = description;
-        this.dietaryNeeds = dietaryNeeds;  // Initialize the dietaryNeeds
-        this.feedbacks = new ArrayList<>(); // Initialize the feedback list
-        this.providerEmail = providerEmail;
-        this.sales = 0;
-        this.totalRevenue = 0;
-    }
-
-
-
-    public Product(String productName, double price, String description, String dietaryNeeds) {
-        this.name = productName;
-        this.price = price;
-        this.description = description;
-        this.dietaryNeeds = dietaryNeeds;  // Initialize the dietaryNeeds
-        this.feedbacks = new ArrayList<>(); // Initialize the feedback list
-        this.sales = 0;
-        this.totalRevenue = 0;
-
-    }
 
     public void setDescription(String description) {
         this.description = description;
@@ -74,6 +47,7 @@ public class Product {
     public String getStoreOwnerEmail() {
         return storeOwnerEmail;
     }
+
     public String getproviderEmail() {
         return providerEmail;
     }
@@ -81,10 +55,12 @@ public class Product {
     public void setproviderEmail(String providerEmail) {
         this.providerEmail = providerEmail;
     }
+
     // Setter for storeOwnerEmail
     public void setStoreOwnerEmail(String storeOwnerEmail) {
         this.storeOwnerEmail = storeOwnerEmail;
     }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -105,9 +81,6 @@ public class Product {
         return price;
     }
 
-    public Map<User, List<String>> getUserProvidedFeedback() {
-        return userFeedbacks;
-    }
 
     public List<String> getFeedbacks() {
         return feedbacks;
@@ -117,9 +90,6 @@ public class Product {
         return dietaryNeeds;
     }
 
-    public Map<User, List<String>> getUserFeedbacks() {
-        return userFeedbacks;
-    }
 
     public void addFeedback(User user, String feedback) {
         userFeedbacks.putIfAbsent(user, new ArrayList<>());
@@ -141,6 +111,7 @@ public class Product {
     }
 
     public double getTotalRevenue() {
+
         return totalRevenue;
     }
 
@@ -149,7 +120,39 @@ public class Product {
         this.productQuantity = quantity;
 
     }
+    public void setProductProvider(String name, double price, String description, String dietaryNeeds, String providerEmail) {
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.dietaryNeeds = dietaryNeeds;  // Initialize the dietaryNeeds
+        this.feedbacks = new ArrayList<>(); // Initialize the feedback list
+        this.providerEmail = providerEmail;
+        this.sales = 0;
+        this.totalRevenue = 0;
+    }
+
+    public Product(String productName, double price, String description, String dietaryNeeds) {
+        this.name = productName;
+        this.price = price;
+        this.description = description;
+        this.dietaryNeeds = dietaryNeeds;  // Initialize the dietaryNeeds
+        this.feedbacks = new ArrayList<>(); // Initialize the feedback list
+        this.sales = 0;
+        this.totalRevenue = 0;
+
+    }
+
+
+
+
+    public Map<User, List<String>> getUserProvidedFeedback() {
+
+        return userFeedbacks;
+    }
+
+
     public int getProductQuantity(){
         return productQuantity;
     }
+
 }

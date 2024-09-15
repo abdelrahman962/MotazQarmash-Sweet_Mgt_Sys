@@ -26,7 +26,7 @@ Feature: Admin Management
     Examples:
       | Role       | OldEmail               | NewEmail                    | NewPassword |
       | user       | m2n@gmail.com          | newuser1@example.com        | newpass123  |
-      | storeowner | mota12@gmail.com       | newstoreowner1@example.com  | newpass123  |
+      | storeowner | abdelrahmanmasri3@gmail.com      | newstoreowner1@example.com  | newpass123  |
       | provider   | johnnn.doe@example.com | newprovider1@example.com    | newpass123  |
 
 

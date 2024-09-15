@@ -10,8 +10,8 @@ Feature: Direct Communication with Store Owners and Suppliers
 
     Examples:
       | userEmail                | userPassword | recipientType | recipientEmail                | messageContent    |
-      | abdelrahmanmasri3@gmail.com | 123          | store owner    | mota12@gmail.com                    | Can you provide more details about the ingredients of the Chocolate Cake? |
-      | abdelrahmanmasri3@gmail.com | 123          | provider      | abdelrahmanmasri333@gmail.com      | I need assistance with bulk ordering ingredients for a Berry Cake. Can you help? |
+      | s12112958@stu.najah.edu | 123          | store owner    | abdelrahmanmasri3@gmail.com                  | Can you provide more details about the ingredients of the Chocolate Cake? |
+      | s12112958@stu.najah.edu | 123          | provider      | abdelrahmanmasri333@gmail.com      | I need assistance with bulk ordering ingredients for a Berry Cake. Can you help? |
 
   Scenario Outline: User receives a response to their inquiry or request
     Given I am a "<userType>" with the email "<ownerEmail>" and the password "<ownerPassword>"
@@ -23,5 +23,5 @@ Feature: Direct Communication with Store Owners and Suppliers
 
     Examples:
       | userType  | ownerEmail                | ownerPassword      | messageContent                                                   | userEmail                  | responseContent                                                               |
-      | store owner| mota12@gmail.com           | 12                   | Can you provide more details about the ingredients of the Chocolate Cake? | abdelrahmanmasri3@gmail.com | The Chocolate Cake contains flour, sugar, cocoa powder, eggs, and butter. It is gluten-free. |
-      | provider  | abdelrahmanmasri333@gmail.com | 123                   | Yes, we can provide bulk ingredients for Berry Cake. Please specify the quantities and delivery date. | abdelrahmanmasri3@gmail.com | Yes, we can provide bulk ingredients for Berry Cake. Please specify the quantities and delivery date. |
+      | store owner| abdelrahmanmasri3@gmail.com           | 12                   | Can you provide more details about the ingredients of the Chocolate Cake? | s12112958@stu.najah.edu | The Chocolate Cake contains flour, sugar, cocoa powder, eggs, and butter. It is gluten-free. |
+      | provider  | abdelrahmanmasri333@gmail.com | 123                   | Yes, we can provide bulk ingredients for Berry Cake. Please specify the quantities and delivery date. | s12112958@stu.najah.edu | Yes, we can provide bulk ingredients for Berry Cake. Please specify the quantities and delivery date. |

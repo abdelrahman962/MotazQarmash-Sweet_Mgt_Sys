@@ -64,6 +64,7 @@ public class LoginTest {
             login.setLogInStatus(false);
         }
         assertFalse(login.isLoggedIn());
+
     }
 
     @When("the information exists, the email is {string}")

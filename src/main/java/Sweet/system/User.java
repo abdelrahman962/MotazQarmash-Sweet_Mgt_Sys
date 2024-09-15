@@ -87,21 +87,6 @@ User {
     public void clearBasket() {
         basket.clear();
     }
-
-    public void sendMessageToStoreOwner(Login login, String storeOwnerEmail, String message, Product currentProduct) {
-        login.sendMessageToStoreOwner(email, storeOwnerEmail, message);
-    }
-
-
-
-    public void addNotification(String notification) {
-        notifications.add(notification);
-    }
-
-    public List<String> getNotifications() {
-        return new ArrayList<>(notifications);
-    }
-
     public void addMessage(Message message) {
         messages.add(message);  // Store the message in the user's message list
     }
@@ -120,7 +105,7 @@ User {
 
         for (int i =0 ; i<StoreOwner.products.size();i++ )
         {
-            total+= StoreOwner.products.get(i).getPrice() * StoreOwner.products.get(i).getSales();
+            total+= (StoreOwner.products.get(i).getPrice() * StoreOwner.products.get(i).getSales());
 
         }
 
@@ -130,14 +115,16 @@ User {
 
 
 
-    public List<Product> best_selling(StoreOwner StoreOwner)
+    public List<Product> bestSelling(StoreOwner storeOwner)
     {
-        return  StoreOwner.getBestSellingProducts();
+
+        return  storeOwner.getBestSellingProducts();
     }
 
 
     public int getType() {
         return type;
     }
+
 
 }
