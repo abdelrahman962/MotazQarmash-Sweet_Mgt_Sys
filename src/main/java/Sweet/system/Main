@@ -436,9 +436,7 @@ public class Main {
 
 
     }
-    public static void kop(){
-        LOGGER.info("Nothing");
-    }
+
 
     private static void addProducts() {
 

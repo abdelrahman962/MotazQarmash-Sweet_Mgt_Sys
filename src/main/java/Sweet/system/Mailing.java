@@ -52,7 +52,7 @@ this.urgentProduct = urgentProduct;
             Transport.send(message);
         }
         catch (MessagingException ppp) {
-            Main.kop();
+
         }
 
     }
